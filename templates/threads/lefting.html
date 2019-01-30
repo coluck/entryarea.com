@@ -1,0 +1,61 @@
+<div class="col-md-2" style="height: 1000px">
+  <div class="panel panel-default">
+    <div class="panel-heading">Threads</div>
+    <div class="panel-body" id="frm">
+      <button id="latest_threads">get</button>
+      <ul>
+        {% for thread in threads %}
+          <li><a href="/t/{{ thread.slug }}">{{ thread.title }}</a><span>{{ thread.get_entry_count }}</span>
+          </li>
+        {% endfor %}
+      </ul>
+      {#          {% for thread in threads %}#}
+      {#            <article>#}
+      {#              <a href="{{ thread.get_absolute_url }}">#}
+      {#                <div style="padding-left: 30px">{{ thread.title }}</div>#}
+      {#              </a>#}
+      {#              <div class="pull-right" style="padding-right:30px">#}
+      {#          {{ thread.get_entry_count }},#}
+      {#          {{ thread.get_today_entry_count }}</div>#}
+      {#            <hr>#}
+      {#          {% endfor %}#}
+    </div>
+    <button id="tag"></button>
+  </div>
+</div>
+
+{% block script %}
+  <script>
+    $(document).ready(function () {
+      $("#latest_threads").click(function () {
+        $.ajax({
+            url: "/threads",
+            success: function (data) {
+              console.log("success", data);
+              {#$("li").html(data[0].title);#}
+              $("#frm>ul>li").remove();
+              for (let key in data) {
+                $("#frm>ul").append("<li><a href=/t/" + data[key].slug + ">" + data[key].title +
+                  "</a><span>" + data[key].cnt + "</span></li>");
+              }
+            }
+          }
+        )
+      });
+      $("#tag").click(function () {
+        $.ajax({
+          url: "/tags/fevri",
+          success: function (data) {
+            console.log("success", data);
+            {#$("li").html(data[0].title);#}
+            $("#frm>ul>li").remove();
+            for (let key in data) {
+              $("#frm>ul").append("<li><a href=/t/" + data[key].slug + ">" + data[key].title +
+                "</a><span>" + data[key].cnt + "</span></li>");
+            }
+          }
+        })
+      });
+    });
+  </script>
+{% endblock %}

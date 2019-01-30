@@ -1,0 +1,18 @@
+{% if user.is_authenticated %}
+<div class="container">
+  <div class="row">
+    <div class="col-md-8 col-md-offset-2">
+      <form action="/thread/create/{{ title }}" method="POST">
+        {% csrf_token %}
+        <div class="form-group">
+          {{ form.as_p }}
+          <button type="submit" class="btn btn-default">Share</button>
+        </div>
+      </form>
+    </div>
+  </div>
+{% else %}
+  <p class="text-center">please <a href="{% url 'user:login' %}?next={{ title }}">sign in</a>
+    to write in this thread.</p>
+{% endif %}
+</div>

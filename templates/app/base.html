@@ -1,0 +1,93 @@
+<!DOCTYPE html>{% load static %}{% load i18n %}{% load tz %}{% get_current_language as LANGUAGE %}
+<html lang="{{ LANGUAGE }}">
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>{% block title %}{% endblock %}entry area</title>
+
+  <!-- Styles -->
+
+  <link rel="stylesheet" href="http://code.jquery.com/ui/1.8.18/themes/base/jquery-ui.css" type="text/css" media="all"/>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"></script>
+  <link href="{% static 'css/styles.css' %}" rel="stylesheet">
+  <link href="{% static 'css/dark.css' %}" rel="stylesheet">
+{#  <script src="{% static 'js/jqry.js' %}"></script>#}
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"/>
+{#  <script src="https://cdn.jsdelivr.net/npm/vue@2.5.17/dist/vue.js"></script>#}
+</head>
+<body style="padding-bottom: 100px">
+<div id="app">
+  <nav class="navbar navbar-default navbar-static-top">
+    <div class="container">
+      <div class="navbar-header">
+        <!-- Collapsed Hamburger -->
+        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#app-navbar-collapse">
+          <span class="sr-only">Toggle Navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+
+        <!-- Branding Image -->
+        <a class="navbar-brand" href="/">
+          entryarea
+        </a>
+        {{ LANGUAGE }}
+      </div>
+
+      <div class="collapse navbar-collapse" id="app-navbar-collapse">
+        <!-- Left Side Of Navbar -->
+        <ul class="nav navbar-nav" style="display: flex; align-items: center;">
+          <li><a href="{% url 'thread:index' %}">threads</a></li>
+          <li><a href="#"></a></li>
+          <li><a href="{% url 'thread:tags' %}">tags</a></li>
+{#          <li><a href="{% url 'thread:tag-read' tag.label %}">tags</a></li>#}
+          <li style=" padding-left: 250px;  padding-top: 5px;">
+            <form action="/s" method="GET" autocomplete="off">
+{#              {% csrf_token %}#}
+              <div class="ui-widget">
+                <input type="text" placeholder="thread, entry or user" name="q" id="q" autocomplete="off">
+                <button type="submit">search</button>
+              </div>
+            </form>
+          </li>
+        </ul>
+
+        <!-- Right Side Of Navbar -->
+        <ul class="nav navbar-nav navbar-right">
+          <!-- Authentication Links -->
+          {% if user.is_authenticated %}
+            <li><a href="{% url 'user:profile' user.username %}">{{ user.get_username }}</a></li>
+            <li><a href="{% url 'user:logout' %}?next={{ request.path }}">Logout</a></li>
+          {% else %}
+            <li><a href="{% url 'user:login' %}?next={{ request.path }}">enter</a></li>
+            <li><a href="{% url 'user:register' %}">register</a></li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+{#  {% include 'threads/lefting.html' %}#}
+
+  {% block content %}{% endblock %}
+</div>
+{% block script %}{% endblock %}
+<script type="text/javascript">
+  $(document).ready(function () {
+    $('.messages').delay(1000).fadeOut();
+    {#$('.messages').delay(1).hide();#}
+  });
+</script>
+
+<script>
+  $(function () {
+    $("#q").autocomplete({
+      source: '/s',
+      position: {my: "right top", at: "right bottom"},
+    });
+  });
+</script>
+</body>
+</html>

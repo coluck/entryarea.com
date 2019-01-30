@@ -1,0 +1,25 @@
+{% extends 'app/base.html' %}
+{% block title %}tags - {% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">Tags</div>
+          <div class="panel-body">
+            {% for tag in tags %}
+              <article>
+                <div style="padding-left: 30px">
+                  <a href="{{ tag.get_absolute_url }}"><h3>#{{ tag.label }}</h3></a>
+                  <p>{{ tag.descr }}</p>
+                </div>
+              </article>
+              <hr>
+            {% endfor %}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+

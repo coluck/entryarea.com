@@ -1,0 +1,42 @@
+{% extends 'app/base.html' %}
+{% block title %}
+  #{{ entry.id }} {{ entry.thread.title }} -
+{% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">
+            <a href="{{ entry.thread.get_absolute_url }}">{{ entry.thread.title }}</a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+          {% if entry.get_previous != 0 %}
+            <div class="text-center">
+              <a href="{{ entry.thread.get_absolute_url }}">
+                <button class="btn-block">{{ entry.get_previous }}</button>
+              </a>
+            </div>
+          {% endif %}
+          {{ entry.get_row_number }}
+
+          {% include 'app/entry.html' %}
+
+          {% if entry.get_next != 0 %}
+            <div class="text-center">
+              <a href="{{ entry.thread.get_absolute_url }}?page={{ entry.thread.get_page_count }}">
+                <button class="btn-block">{{ entry.get_next }}</button>
+              </a>
+            </div>
+          {% endif %}
+        </div>
+      </div>
+    </div>
+  </div>
+{% endblock %}

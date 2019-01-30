@@ -1,0 +1,31 @@
+{% extends 'app/base.html' %}
+{% block title %}{{ tag }} - {% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div class="panel panel-default">
+          <div class="panel-heading">{{ tag }} </div>
+        </div>
+      </div>
+    </div>
+    <div class="panel-body">
+      <div class="col-md-8 col-md-offset-2">
+        {% for thread in tag_threads %}
+          <article>
+            <a href="{{ thread.get_absolute_url }}">
+              <div style="padding-left: 30px">{{ thread.title }}</div>
+            </a>
+            <div class="pull-right"
+                 style="padding-right:30px">{{ thread.get_entry_count }}, {{ thread.get_today_entry_count }}</div>
+          </article>
+          <hr>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block leftpane %}
+  {% include 'threads/lefting.html' %}
+{% endblock %}

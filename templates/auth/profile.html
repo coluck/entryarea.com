@@ -1,0 +1,17 @@
+{% extends 'app/base.html' %}
+{% block title %}{{ user.username }} - {% endblock %}
+{% block content %}
+  <div class="container">
+    <div class="row">
+      <div class="col-md-8 col-md-offset-2">
+        <div>
+          <h class="page-header">{{ user.username }}</h>
+        </div>
+        {% for entry in user.entry_set.all %}
+          <h3 class="page-header">{{ entry.thread }}</h3>
+          <p>{{ entry.body }}</p>
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endblock %}
