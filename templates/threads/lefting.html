@@ -5,7 +5,8 @@
       <button id="latest_threads">get</button>
       <ul>
         {% for thread in threads %}
-          <li><a href="/t/{{ thread.slug }}">{{ thread.title }}</a><span>{{ thread.get_entry_count }}</span>
+          <li><a href="/t/{{ thread.slug }}">{{ thread.title }}</a> <span>{{ thread.tecnt }}</span>
+{#            <span>{{ thread.get_entry_count }}</span>#}
           </li>
         {% endfor %}
       </ul>

@@ -3,16 +3,18 @@ import random
 
 from django.contrib import auth, messages
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.db.models import Count, Q
 from django.http import HttpResponse, JsonResponse
-from django.shortcuts import redirect, get_object_or_404
+from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import get_language as lang
-from django.views import generic
+from django.views import generic, View
 
-from app.entries.forms import EntryForm
+from app.entries.forms import EntryForm, BodyForm
 from app.entries.models import Entry
-from .forms import ThreadForm
+from app.entries.views import add_entry
+from .forms import ThreadForm, TitleForm
 from .models import Thread, Tag, PAGINATE
 
 
@@ -25,6 +27,7 @@ class ThreadIndex(generic.ListView):
     context_object_name = 'threads'
 
     paginate_by = 10
+
     # queryset = Thread.objects.all()
 
     def get_queryset(self):
@@ -63,9 +66,8 @@ class ThreadCreate(LoginRequiredMixin, generic.CreateView):
     template_name = 'threads/create.html'
 
     def post(self, request, *args, **kwargs):
-
         new = Thread(title=request.POST['title'].lower(), user=request.user,
-                 lang=lang())
+                     lang=lang())
         new.save()
         messages.success(request, 'your thread was published successfully')
         return redirect(new)
@@ -84,7 +86,51 @@ def create(request, title):
     entry = Entry(body=request.POST['body'], user=request.user, thread=new,
                   lang=lang())
     entry.save()
+
+    new.last_entry = timezone.now()
+    new.save()
+
     return redirect(new)
+
+
+def new(request, title):
+    if request.method == "GET":
+        try:
+            thread = Thread.objects.get(title=title, lang=lang())
+            return redirect(thread)
+        except Thread.DoesNotExist:
+            data = {"title": title}
+            thread_form = TitleForm(data)
+            if thread_form.is_valid():
+                entry_form = BodyForm()
+                entry_form.fields['body'].widget.attrs['placeholder'] = \
+                    "en light us about " + title
+
+                context = {"tform": thread_form, "eform": entry_form, "title": title}
+                return render(request, "threads/new.html", context=context)
+
+    if request.method == "POST":
+        thread_form = TitleForm(request.POST)
+        entry_form = BodyForm(request.POST)
+        if thread_form.is_valid() and entry_form.is_valid():
+            new_thread = Thread(title=thread_form.cleaned_data['title'],
+                                user=request.user, lang=lang())
+            new_thread.last_entry = timezone.now()
+            new_thread.save()
+
+            add_entry(request, new_thread.slug)
+            messages.success(request, 'and the thread was created')
+            return redirect(new_thread)
+        else:
+            return redirect("/")
+
+
+class ThreadCreateNew(View):
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
 
 
 class ThreadRead(generic.ListView):
@@ -93,16 +139,15 @@ class ThreadRead(generic.ListView):
     template_name = 'threads/read.html'
     paginate_by = PAGINATE
 
-    # form.fields['body'].widget.attrs['placeholder'] = "Hello World"
-
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         thread = Thread.objects.get(slug=self.kwargs.get('slug'))
         tags = thread.tags.all()
         threads = Thread.objects.filter(lang=lang())[:15]
+        threads = Thread.objects.annotate(tecnt=Count('entries'))
         form = EntryForm()
-        form.fields['body'].widget.attrs['placeholder'] =\
+        form.fields['body'].widget.attrs['placeholder'] = \
             "en light us about " + thread.title
 
         context['thread'] = thread
@@ -111,13 +156,17 @@ class ThreadRead(generic.ListView):
         context["form"] = form
         return context
 
-    def get_queryset(self):
+    def get_queryset(self, **kwargs):
+        """
         # thread = Thread.objects.get(slug=self.kwargs.get('slug'))
         thread = get_object_or_404(Thread, slug=self.kwargs.get('slug'))
         queryset = thread.entries.all()
         query = self.request.GET.get("day", None)
         if query is not None:
             return thread.entries.filter(created_at__day=query)
+        return queryset"""
+        thread = get_object_or_404(Thread, slug=self.kwargs.get('slug'))
+        queryset = thread.entries.only('user__username', 'body', 'created_at', 'updated_at')
         return queryset
 
 

@@ -5,14 +5,15 @@
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
-          <div class="panel-heading">{{ title }} </div>
+          <div class="panel-heading">{{ title }}</div>
+          It is {% now "jS F Y H:i" %}
         </div>
       </div>
       <div class="col-md-2">
         thread does not exist. if you want to crate this thread be sure it obeys the rules
       </div>
     </div>
-      {% include 'app/new_entryarea.html' %}
+      {% include 'app/newea.html' %}
     </div>
   </div>
 {% endblock %}

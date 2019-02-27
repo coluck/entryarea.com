@@ -10,12 +10,12 @@
     {#        {% endautoescape %}#}
   </div>
   <div class="cartcurt">
-    {% if user.is_authenticated and user.id == entry.user.id %}
+    {% if user.is_authenticated and user.id == entry.user_id %}
       <a href="{% url 'entry:delete' entry.id %}" style="margin-left: 5px" class="btn btn-xs">Delete</a>
       <a href="{% url 'entry:update' entry.id %}" class="btn btn-xs">Edit</a>
       <p>{{ is_faved }}</p>
     {% endif %}
-    <a href="{% url 'entry:favorite' entry.id %}"> Fav</a>
+{#    <a href="{% url 'entry:favorite' entry.id %}"> Fav</a>#}
 
 {#  <a href="#" class="like" title="">#}
 {#    {% with favs=request.user.favs.all %}#}
@@ -28,7 +28,7 @@
 {##}
 {#    {% endwith %}#}
 {#      <a ... onclick="return confirm('Are you sure you want to delete this?')">Delete</a>#}
-      <span class="like-count">{% with cnt=entry.favs.count %}{{ cnt }}{% endwith %}</span>
+{#      <span class="like-count">{% with cnt=entry.favs.count %}{{ cnt }}{% endwith %}</span>#}
     {#    {{ entry.get_favs }} xx {{ entry.favs.all }}#}
     <a href="#" class="pull-right"
        style="padding-right: 10px; padding-left: 30px;">{{ entry.user }}</a>

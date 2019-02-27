@@ -46,7 +46,7 @@
 {#          <li><a href="{% url 'thread:tag-read' tag.label %}">tags</a></li>#}
           <li style=" padding-left: 250px;  padding-top: 5px;">
             <form action="/s" method="GET" autocomplete="off">
-{#              {% csrf_token %}#}
+              {% csrf_token %}
               <div class="ui-widget">
                 <input type="text" placeholder="thread, entry or user" name="q" id="q" autocomplete="off">
                 <button type="submit">search</button>
@@ -76,7 +76,7 @@
 {% block script %}{% endblock %}
 <script type="text/javascript">
   $(document).ready(function () {
-    $('.messages').delay(1000).fadeOut();
+    $('.messages').delay(1500).fadeOut();
     {#$('.messages').delay(1).hide();#}
   });
 </script>

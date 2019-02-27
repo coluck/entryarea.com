@@ -1,5 +1,5 @@
 import bleach
-from bleach import ALLOWED_TAGS, ALLOWED_ATTRIBUTES, ALLOWED_STYLES
+from bleach.sanitizer import ALLOWED_TAGS, ALLOWED_ATTRIBUTES, ALLOWED_STYLES
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.http import Http404
@@ -16,6 +16,13 @@ from ..threads.models import Thread
 class EntryRead(generic.DetailView):
     model = Entry
     template_name = 'entries/read.html'
+
+
+    def get_queryset(self):
+        entry = super().get_queryset().only('user', 'body')
+        entry = entry.annotate()
+        return entry
+
 
 
 class EntryUpdate(generic.UpdateView):
@@ -126,7 +133,7 @@ def add_entry(request, slug):
                 url=thread_url,
                 page=thread.get_page_count()
             )
-            messages.success(request, 'your entry was published successfully')
+            messages.success(request, 'your entry was published')
             return redirect(url)
         else:
             redirect(thread_url)

@@ -11,6 +11,7 @@ urlpatterns = [
     # path('index/', views.index()),
     # path('api_threads', views.api_thread),
     path('threads/create', views.ThreadCreate.as_view(), name='create-thread'),
+    path('threads/new/<str:title>', views.new, name='new'),
     # path('thread/create', views.thread_create, name='create'),
     path('thread/create/<str:title>', views.create, name='create'),
     path('t/<slug>/', views.ThreadRead.as_view(), name='read'),

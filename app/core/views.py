@@ -1,4 +1,5 @@
 import json
+import re
 
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
@@ -29,7 +30,8 @@ def search(request):
 
     else:
         get = request.GET.get('q')
-        title = get.strip()
+        data = get.strip()
+        title = re.sub(' +', ' ', data)
         try:
             thread = Thread.objects.get(title=title, lang=lang())
             return redirect(thread)
@@ -37,8 +39,8 @@ def search(request):
             form = EntryForm()
             form.fields['body'].widget.attrs['placeholder'] = \
                 "enlight us about " + str(title)
-            return render(request, 'threads/store.html',
-                          {'title': str(title), 'form': form})
+            # return render(request, 'threads/store.html', {'title': str(title), 'form': form})
+            return redirect("thread:new", title=title)
 
 
 def threads(request):

@@ -1,0 +1,47 @@
+[
+  {
+    "model": "threads.Tag",
+    "pk": 1,
+    "fields": {
+      "label": "art",
+      "descr": "a way to signify your opinion. to show your imagination...",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.Tag",
+    "pk": 2,
+    "fields": {
+      "label": "world",
+      "descr": "all about the place where we fucked off and live.",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.Tag",
+    "pk": 3,
+    "fields": {
+      "label": "technology",
+      "descr": "the application of science, math, engineering.",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.Tag",
+    "pk": 4,
+    "fields": {
+      "label": "sport",
+      "descr": "the hard way to burn calories.",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.Tag",
+    "pk": 5,
+    "fields": {
+      "label": "music",
+      "descr": "a good transportation vehicle for minds.",
+      "lang": "en"
+    }
+  }
+]

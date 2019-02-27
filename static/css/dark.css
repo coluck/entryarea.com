@@ -38,6 +38,7 @@ input, button, select, textarea {
 }
 a {
     color: #f7a31c;
+    word-wrap: break-word;
 }
 .panel-body > p {
     color: #eaeaea;

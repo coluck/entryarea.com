@@ -5,7 +5,7 @@ from .models import User
 class UserAdmin(admin.ModelAdmin):
     list_display = ('id', 'username', 'email')
     search_fields = ('username', 'email')
-    list_per_page = 15
+    list_per_page = 30
     exclude = ['password']
 
     fieldsets = [
@@ -15,5 +15,6 @@ class UserAdmin(admin.ModelAdmin):
                            ('user_permissions', 'groups'),
                            'age']}),
     ]
+
 
 admin.site.register(User, UserAdmin)

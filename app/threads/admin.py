@@ -54,14 +54,11 @@ class TagInline(admin.TabularInline):
 
 
 class ThreadAdmin(admin.ModelAdmin):
-    # class Media:
-    #     css = {
-    #         'all': ('css/admin.css',)
-    #     }
+
     fieldsets = [
         (None, {'fields': [('title', 'id')]}),
-        ("Advanced option", {'fields': [('lang', 'user', 'slug', 'deleted_at'),],
-                             'classes': ['collapse']})
+        ("Options", {'fields': [('lang', 'user', 'slug', 'deleted_at')],
+                     'classes': ['collapse']})
     ]
     list_display = ('id', 'title', 'lang', 'entry_count',
                     'today_entry_count', 'tag_count')
@@ -76,7 +73,7 @@ class ThreadAdmin(admin.ModelAdmin):
 
     save_on_top = True
     show_full_result_count = True
-    list_per_page = 15
+    list_per_page = 50
     inlines = [TagInline, EntryInline]
 
     def hard_delete(self, request, queryset):
@@ -133,11 +130,22 @@ class ThreadAdmin(admin.ModelAdmin):
 
     tag_count.admin_order_field = "_tag_count"
 
+    # To define boolean field
+    '''
+    def isit(self, obj):
+        return obj._entry_count > 5
+
+    isit.boolean = True
+    '''
+
 
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'label', 'lang', 'get_thread_count')
 
     filter_horizontal = ('thread',)
+
+    autocomplete_fields = ["thread"]
+    # raw_id_fields = ["thread"]
 
     # def formfield_for_manytomany(self, db_field, request, **kwargs):
     #     kwargs["queryset"] = Tag.objects.filter(lang=lang())
@@ -149,22 +157,3 @@ admin.site.register(Thread, ThreadAdmin)
 admin.site.register(Tag, TagAdmin)
 
 # admin.site.register(MyAdmin)
-
-'''
-class MainAdmin(admin.AdminSite, admin.ModelAdmin):
-    site_header = "aaa"
-    site_title = "hell"
-    index_title = "clas"
-
-    class Media:
-        css = {
-            'all': ['css/admin.css']
-        }
-
-
-main_admin_site = MainAdmin(name="main_sadim")
-
-main_admin_site.register(Thread)
-main_admin_site.register(Entry)
-main_admin_site.register(Tag)
-'''
