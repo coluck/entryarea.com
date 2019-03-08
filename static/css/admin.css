@@ -1,0 +1,63 @@
+body {
+    background: #333;
+}
+#header {
+    background: #555;
+    color: #f7a31c;
+}
+h1 {
+    color: #999;
+}
+.module {
+    background: #eaeaea;
+}
+#content-related .module h2 {
+    border-bottom: 1px solid #444
+}
+.module h2, .module caption, .inline-group h2 {
+    background: #555;
+}
+#branding h1, #branding h1 a:link, #branding h1 a:visited {
+    color: #f7a31c;
+}
+a:focus, a:link , a:visited{
+    color: #f7a31c;
+}
+.paginator a.showall:focus, .paginator a.showall:hover {
+    color: #f7a31c;
+}
+div.breadcrumbs {
+    background: #444;
+}
+
+#content-related {
+    background: #333;
+}
+#content-related .module h2 {
+    color: #999;
+}
+
+#content-related .actionlist li {
+    color: #eaeaea;
+}
+#changelist-filter li.selected a {
+    color: #f7a31c;
+}
+.row1 {
+    background-color: #444;
+}
+.row2 {
+    background-color: #666;
+}
+#changelist table {
+    color: #fff;
+}
+#changelist #toolbar{
+    color: #333;
+}
+.module {
+    background: #333;
+}
+#changelist #toolbar {
+    background: #333;
+}
