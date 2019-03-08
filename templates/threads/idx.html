@@ -1,16 +1,12 @@
 {% extends 'app/base.html' %}
-{% block title %}@{{ user.username }} - {% endblock %}
+
 {% block content %}
-  <div class="container">
+ <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
-        <div>
-          <h1 class="page-header" style="color: #f7a31c">{{ user.username }}</h1>
-        </div>
         {% for entry in entries %}
           <h3 class="page-header"><a href="t/{{ entry.slug }}">{{ entry.title }}</a></h3>
-{#          <p>{{ entry.get_body }}</p>#}
-            {% include 'app/entry.html' %}
+          <p>{% include 'app/entry.html' %}
         {% endfor %}
       </div>
     </div>

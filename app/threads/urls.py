@@ -6,7 +6,8 @@ from . import views, admin
 app_name = 'thread'
 
 urlpatterns = [
-    path('', views.ThreadIndex.as_view(), name='index'),
+    # path('', views.ThreadIndex.as_view(), name='index'),
+    path('', views.index),
     path('threads/', views.ThreadIndex.as_view(), name='index'),
     # path('index/', views.index()),
     # path('api_threads', views.api_thread),

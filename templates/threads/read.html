@@ -1,4 +1,5 @@
 {% extends 'app/base.html' %}
+{% load i18n %}
 {% block title %}
   {{ thread.title }} -
 {% endblock %}
@@ -7,14 +8,14 @@
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
-          <div class="panel-heading">{{ thread.title }} </div>
+          <div class="panel-heading">{{ thread.title }}
+            <span class="small pull-right">{{ thread.views }} {% trans "viewed" %}</span>
+          </div>
           {% if LANGUAGE != thread.lang %}
             <div class="alert alert-danger">This thread language is {{ thread.lang }}</div>
           {% endif %}
         </div>
       </div>
-
-    {{ thread.get_date }}
       <br>
     {% for tag in tags %}
       <a href="{}">#{{ tag.label }} </a>
@@ -35,13 +36,13 @@
       <div class="col-md-8">
         <div class="panel panel-default">
           {% for entry in entries %}
-            {{ entry.get_row_number }}
             {% include 'app/entry.html' %}
           {% endfor %}
         </div>
         {% include 'app/epag.html' %}
       </div>
       {% include 'app/entryarea.html' %}
+      </div>
     </div>
 {% endblock %}
 </div>

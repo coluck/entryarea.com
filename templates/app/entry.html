@@ -9,10 +9,11 @@
     {#            {{ entry.body }}#}
     {#        {% endautoescape %}#}
   </div>
-  <div class="cartcurt">
-    {% if user.is_authenticated and user.id == entry.user_id %}
-      <a href="{% url 'entry:delete' entry.id %}" style="margin-left: 5px" class="btn btn-xs">Delete</a>
-      <a href="{% url 'entry:update' entry.id %}" class="btn btn-xs">Edit</a>
+  <div class="cartcurt">{% load i18n %}
+{#    {% if user.is_authenticated and user.id == entry.user_id %}#}
+    {% if user.is_authenticated and user.get_username == entry.username %}
+      <a href="{% url 'entry:delete' entry.id %}" style="margin-left: 5px" class="btn btn-xs">{% trans "delete" %}</a>
+      <a href="{% url 'entry:update' entry.id %}" class="btn btn-xs">{% trans "edit" %}</a>
       <p>{{ is_faved }}</p>
     {% endif %}
 {#    <a href="{% url 'entry:favorite' entry.id %}"> Fav</a>#}
@@ -31,7 +32,7 @@
 {#      <span class="like-count">{% with cnt=entry.favs.count %}{{ cnt }}{% endwith %}</span>#}
     {#    {{ entry.get_favs }} xx {{ entry.favs.all }}#}
     <a href="#" class="pull-right"
-       style="padding-right: 10px; padding-left: 30px;">{{ entry.user }}</a>
+       style="padding-right: 10px; padding-left: 30px;">{{ entry.username }}</a>
     {% if entry.updated_at %}
       <a href="{{ entry.get_absolute_url }}" class="pull-right" style="padding-right: 0px">
         {% if entry.created_at|date:"d.m.Y" == entry.updated_at|date:"d.m.Y" %}

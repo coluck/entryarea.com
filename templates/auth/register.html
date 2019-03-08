@@ -1,5 +1,6 @@
 {% extends 'app/base.html' %}
 {% load widget_tweaks %}
+{% load i18n %}
 
 {% block title %}register - {% endblock %}
 {% block content %}
@@ -8,7 +9,7 @@
       <div class="col-lg-8 col-md-10 col-sm-12">
         <div class="card">
           <div class="card-body">
-            <h3 class="card-title">Sign up</h3>
+            <h3 class="card-title">{% trans "register" %}</h3>
             <form method="post" novalidate>
               {% csrf_token %}
               {% for field in form %}
@@ -24,12 +25,14 @@
                   {% endif %}
                 </div>
               {% endfor %}
-              <button type="submit" class="btn btn-primary btn-block">Create an account</button>
+              <button type="submit" class="btn btn-primary btn-block">
+                {% trans "create an account" %}
+              </button>
             </form>
           </div>
         </div>
         <div class="card-footer text-muted text-center">
-          Already have an account? <a href="{% url 'user:login' %}">Log in</a>
+          {% trans "already have an account?" %}<a href="{% url 'user:login' %}">{% trans "enter" %}</a>
         </div>
       </div>
     </div>

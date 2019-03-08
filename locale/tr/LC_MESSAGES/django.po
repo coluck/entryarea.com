@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2018-08-29 19:44+0000\n"
+"POT-Creation-Date: 2019-03-05 23:31+0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -17,6 +17,110 @@ msgstr ""
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
+
+#: app/entries/exviews.py:152 app/entries/views.py:143
+#, fuzzy
+#| msgid "your thread was published successfully"
+msgid "your entry was published"
+msgstr "entry'in başarıyla yayınlandı"
+
+#: app/entries/views.py:122
+msgid "this thread is closed don't even try"
+msgstr "bu başlık kapanmış, aklından geçeni deneme bile"
+
+#: app/threads/forms.py:29
+msgid "invalid title for thread"
+msgstr "olmaz olsun böyle başlık"
+
+#: app/threads/views.py:82
+msgid "your thread was published successfully"
+msgstr "başlığın başarıyla yayınlandı"
+
+#: config/settings/base.py:16
+msgid "Turkish"
+msgstr "Türkçe"
+
+#: config/settings/base.py:17
+msgid "English"
+msgstr "İngilizce"
+
+#: templates/admin/base_site.html:5
+msgid "Django site admin"
+msgstr ""
+
+#: templates/admin/base_site.html:12
+msgid "Django administration"
+msgstr ""
+
+#: templates/app/base.html:44 templates/threads/index.html:8
+#: templates/threads/lefting.html:4
+msgid "threads"
+msgstr "başlıklar"
+
+#: templates/app/base.html:46
+msgid "tags"
+msgstr "kategoriler"
+
+#: templates/app/base.html:51
+#| msgid "thread, entry or user"
+msgid "thread, #entry or @user"
+msgstr "başlık, #entry veya @kullanıcı"
+
+#: templates/app/base.html:63
+msgid "logout"
+msgstr "çıkış"
+
+#: templates/app/base.html:65 templates/app/entryarea.html:17
+msgid "enter"
+msgstr "giriş"
+
+#: templates/app/base.html:66
+msgid "register"
+msgstr "kayış"
+
+#: templates/app/base.html:88
+msgid "language"
+msgstr "dil"
+
+#: templates/app/entry.html:15 templates/entries/confirm_delete.html:19
+msgid "delete"
+msgstr "sil"
+
+#: templates/app/entry.html:16
+msgid "edit"
+msgstr "düzelt"
+
+#: templates/app/entryarea.html:10
+msgid "send"
+msgstr "yolla"
+
+#: templates/app/entryarea.html:16
+msgid "please"
+msgstr "yazmak için lütfen"
+
+#: templates/app/entryarea.html:18
+msgid "to write"
+msgstr "yapınız"
+
+#: templates/entries/confirm_delete.html:18
+msgid "are you sure you want to delete this entry?"
+msgstr "entry'yi silmek istiyor musun cidden?"
+
+#: templates/entries/read.html:30 templates/entries/read.html:42
+msgid "more"
+msgstr "daha"
+
+#: templates/entries/read.html:59
+msgid "entry could not found"
+msgstr "böyle bir entry bulunamadı belki de hiç yoktu"
+
+#: templates/entries/update.html:23
+msgid "save"
+msgstr "kaydet"
+
+#: templates/threads/read.html:12
+msgid "viewed"
+msgstr "görüntüleme"
 
 #: venv/lib/python3.6/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"

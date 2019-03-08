@@ -1,11 +1,12 @@
-<div class="col-md-2" style="height: 1000px">
+{% load i18n %}
+<div class="col-md-2" style="height: 3000px">
   <div class="panel panel-default">
-    <div class="panel-heading">Threads</div>
+    <div class="panel-heading">{% trans "threads" %}</div>
     <div class="panel-body" id="frm">
       <button id="latest_threads">get</button>
       <ul>
         {% for thread in threads %}
-          <li><a href="/t/{{ thread.slug }}">{{ thread.title }}</a> <span>{{ thread.tecnt }}</span>
+          <li><a href="/t/{{ thread.slug }}">{{ thread.title }}</a> <span>{{ thread.tecnt}}</span>
 {#            <span>{{ thread.get_entry_count }}</span>#}
           </li>
         {% endfor %}

@@ -10,7 +10,6 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse
 from django.utils import timezone
 from django.utils.translation import get_language as lang
-from django.utils.translation import ugettext as _
 from django.views import generic, View
 
 from app.entries.forms import EntryForm, BodyForm
@@ -57,7 +56,6 @@ def api_thread(request):
     lis = []
 
     queries = Thread.objects.filter(lang=lang()).only('title', 'slug')[:20]
-
     for query in queries:
         results['title'] = query.title
         results['slug'] = query.slug
@@ -79,7 +77,7 @@ class ThreadCreate(LoginRequiredMixin, generic.CreateView):
         new = Thread(title=request.POST['title'].lower(), user=request.user,
                      lang=lang())
         new.save()
-        messages.success(request, _('your thread was published successfully'))
+        messages.success(request, 'your thread was published successfully')
         return redirect(new)
 
 
@@ -135,12 +133,19 @@ def new(request, title):
             return redirect("/")
 
 
+class ThreadCreateNew(View):
+    def get(self, request):
+        pass
+
+    def post(self, request):
+        pass
+
+
 class ThreadRead(generic.ListView):
     model = Entry
     context_object_name = 'entries'
     template_name = 'threads/read.html'
     paginate_by = PAGINATE
-    paginate_orphans = 3
 
     def get_queryset(self, **kwargs):
         """
@@ -153,29 +158,20 @@ class ThreadRead(generic.ListView):
         return queryset"""
         self.thread = get_object_or_404(Thread, slug=self.kwargs.get('slug'))
         # queryset = thread.entries.only('user__username', 'body', 'created_at', 'updated_at')
-
-        queryset = super().get_queryset(**kwargs).filter(thread=self.thread)\
-            .annotate(username=F('user__username'))
+        queryset = super().get_queryset(**kwargs)
+        queryset = queryset.filter(thread=self.thread).select_related('user')
+        #  .annotate(username=F('user__username'))  # in my opinion more
+        #  convenient should be edited entry.html TODO: do it
         return queryset
 
     def get_context_data(self, **kwargs):
-        session_key = 'viewed_thread_{}'.format(self.thread.pk)
-        if not self.request.session.get(session_key, False):
-            self.thread.views += 1
-            self.thread.save()
-            self.request.session[session_key] = True
-
         context = super().get_context_data(**kwargs)
 
+        # thread = Thread.objects.get(slug=self.kwargs.get('slug'))
         tags = self.thread.tags.all()
-        # tec = Count('entries', filter=Q(entries__created_at__startswith=
-        #                                 datetime.date.today()))
-        # threads = Thread.objects.only('title', 'slug').filter(lang=lang())\
-        #     .annotate(tecnt=tec)[:30]
-        threads = Thread.objects.only('title', 'slug').filter(lang=lang())\
-            .annotate(tecnt=Count("entries",
-                filter=Q(entries__created_at__startswith=datetime.date.today()),
-                distinct=True))
+        # threads = Thread.objects.filter(lang=lang())[:15]
+        # today_cnt = Count('entries', filter=Q(entries__created_at__startswith=str(datetime.date.today())))
+        threads = Thread.objects.only('title', 'slug').annotate(tecnt=Count('entries'))[:30]
         form = EntryForm()
         form.fields['body'].widget.attrs['placeholder'] = \
             "en light us about " + self.thread.title

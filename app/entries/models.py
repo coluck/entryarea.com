@@ -17,14 +17,17 @@ from app.threads.models import Thread
 class Entry(SoftDeletionModel):
     body = models.TextField()
     lang = models.CharField(max_length=5)
-    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    thread = models.ForeignKey(Thread, on_delete=models.CASCADE, related_name='entries')
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                             related_name='entries')
+    thread = models.ForeignKey(Thread, on_delete=models.CASCADE,
+                               related_name='entries')
     favs = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favs')
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'entries'
+        ordering = ['created_at']
 
     def __str__(self):
         truncated_entry = Truncator(self.body)

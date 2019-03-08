@@ -1,4 +1,5 @@
 {% extends 'app/base.html' %}
+{% load i18n %}
 {% block title %}edit #{{ entry.id }} - {% endblock %}
 {% block content %}
   <div class="container">
@@ -19,7 +20,7 @@
                 {% csrf_token %}
                 {#                                    {{ form.as_p }}#}
                 <textarea name="body" id="body" cols="75%" rows="5">{{ entry.body }}</textarea>
-                <button type="submit" style="margin-left: 1px;margin-bottom: 10px" class="btn btn-default">Save</button>
+                <button type="submit" style="margin-left: 1px;margin-bottom: 10px" class="btn btn-default">{% trans "save" %}</button>
               </form>
             </div>
           {% else %}

@@ -1,8 +1,10 @@
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
+from django.db.models import F
 from django.http import JsonResponse
+from django.utils.translation import get_language as lang
 from django.views import generic
-from django.shortcuts import render, redirect
+from django.shortcuts import render, redirect, get_object_or_404
 
 from app.entries.models import Entry
 from app.users.forms import SignUpForm
@@ -45,5 +47,28 @@ def profile(request, username):
 
 class Profile(generic.ListView):
     model = Entry
+    context_object_name = 'entries'
+    template_name = 'auth/profile.html'
+    paginate_by = 15
+    paginate_orphans = 3
+
+    def get_queryset(self, **kwargs):
+        self.user = User.objects.\
+            filter(username__exact=self.kwargs.get('username')).\
+            only('username')[0]
+
+        queryset = super().get_queryset().filter(user=self.user).\
+            filter(lang=lang()).annotate(title=F('thread__title'),
+                                         slug=F('thread__slug'),
+                                         username=F('user__username'))
+        return queryset
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+
+        context['user'] = self.user
+        return context
+
+
 
 

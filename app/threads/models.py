@@ -9,7 +9,7 @@ from django.urls import reverse
 
 from app.core.models import SoftDeletionModel
 
-PAGINATE = 5
+PAGINATE = 15
 
 
 class Thread(SoftDeletionModel):
@@ -18,7 +18,8 @@ class Thread(SoftDeletionModel):
     slug = models.SlugField(max_length=100, unique=True, null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.SET_NULL, null=True)
-    # closed = models.BooleanField()
+    views = models.PositiveIntegerField(default=0)
+    is_closed = models.BooleanField(default=False)
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(blank=True, null=True)
     last_entry = models.DateTimeField(blank=True, null=True)
@@ -75,7 +76,7 @@ class Tag(models.Model):
     thread = models.ManyToManyField(Thread, blank=True, related_name='tags')
 
     def __str__(self):
-        return self.label
+        return self.label+"("+self.lang+")"
 
     def get_absolute_url(self):
         return slugify(self.label)

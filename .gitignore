@@ -94,4 +94,5 @@ config/settings.py
 
 venv/
 
+static/
 .idea/

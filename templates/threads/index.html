@@ -1,11 +1,11 @@
 {% extends 'app/base.html' %}
-
+{% load i18n %}
 {% block content %}
   <div class="container">
     <div class="row">
       <div class="col-md-8 col-md-offset-2">
         <div class="panel panel-default">
-          <div class="panel-heading">Threads</div>
+          <div class="panel-heading">{% trans "threads" %}</div>
           <div class="panel-body">
             {% for thread in threads %}
               <article>
@@ -14,6 +14,7 @@
                 </a>
                 <div class="pull-right" style="padding-right:30px">
 {#                  {{ thread.get_entry_count }}, {{ thread.get_today_entry_count }}#}
+                    {{ thread.ecnt }}
                 </div>
               </article>
               <hr>

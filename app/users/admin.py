@@ -1,8 +1,10 @@
 from django.contrib import admin
+from django.contrib.auth.admin import UserAdmin
+
 from .models import User
 
 
-class UserAdmin(admin.ModelAdmin):
+class CustomUserAdmin(UserAdmin):
     list_display = ('id', 'username', 'email')
     search_fields = ('username', 'email')
     list_per_page = 30
@@ -17,4 +19,4 @@ class UserAdmin(admin.ModelAdmin):
     ]
 
 
-admin.site.register(User, UserAdmin)
+admin.site.register(User, CustomUserAdmin)

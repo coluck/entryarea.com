@@ -29,11 +29,10 @@ class Entryread(generic.View):
 class EntryRead(generic.DetailView):
     model = Entry
     template_name = 'entries/read.html'
-    
+
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        queryset = self.get_queryset().annotate(username=F("user__username"))\
-            .select_related("thread")
+        queryset = self.get_queryset().annotate(username=F("user__username")).select_related("thread")
         try:
             entry = queryset.get(pk=pk)
         except ObjectDoesNotExist:
@@ -91,8 +90,8 @@ class EntryDelete(generic.DeleteView):
         entry = super(EntryDelete, self).get_object()
         thread = entry.thread
         redirect(thread)
-    
-    
+
+
     def get_object(self, queryset=None):
         obj = super(EntryDelete, self).get_object()
         if not obj.user == self.request.user:
@@ -120,13 +119,22 @@ class EntryDelete(generic.DeleteView):
 def add_entry(request, slug):
     thread = get_object_or_404(Thread, slug=slug)
     if thread.is_closed:
-        messages.error(request, _("this thread is closed don't even try"))
         return redirect(thread)
     thread_url = thread.get_absolute_url()
     if request.method == 'POST':
         form = EntryForm(request.POST)
         if form.is_valid():
             entry = form.save(commit=False)
+            '''
+            entry.body = bleach.clean(form.cleaned_data['body'],
+                                      tags=ALLOWED_TAGS,
+                                      attributes=ALLOWED_ATTRIBUTES,
+                                      styles=ALLOWED_STYLES,
+                                      strip=False, strip_comments=True)
+            '''
+            # entry.body = request.POST['body']
+            # entry.body = strip_tags(form.cleaned_data['body'])
+            # entry.body = escape(form.cleaned_data['body'])
             entry.thread = thread
             entry.user = request.user
             entry.lang = lang()

@@ -1,4 +1,6 @@
 import os
+from django.utils.translation import gettext_lazy as _
+
 from decouple import config
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
@@ -9,6 +11,11 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/2.1/howto/deployment/checklist/
 SECRET_KEY = config('SECRET_KEY')
+
+LANGUAGES = [
+    ('tr', _('Turkish')),
+    ('en', _('English')),
+]
 
 
 # SECURITY WARNING: keep the secret key used in production secret!
@@ -21,7 +28,6 @@ ALLOWED_HOSTS = []
 LOGIN_URL = "/enter"
 LOGIN_REDIRECT_URL = "/"
 
-SESSION_COOKIE_DOMAIN = '.localhost.com'
 # SESSION_COOKIE_DOMAIN = ['.localhost.com', 'localhost:8000']  # TODO: Don't Work. Find solution.
 # SESSION_COOKIE_DOMAIN = None  # Worked Like Test It
 # Application definition
@@ -45,6 +51,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -119,6 +126,9 @@ USE_L10N = True
 
 USE_TZ = True
 
+LOCALE_PATHS = [
+    BASE_DIR+'/locale'
+]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 

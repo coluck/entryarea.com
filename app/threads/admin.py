@@ -3,7 +3,9 @@ import datetime
 from django.contrib import admin
 from django.contrib.admin.apps import AdminConfig
 from django.contrib.admin.models import LogEntry
+from django.core import serializers
 from django.db.models import Count, Q
+from django.http import HttpResponse
 from django.utils import timezone
 from django.utils.translation import get_language as lang
 
@@ -15,15 +17,13 @@ admin.site.index_title = "Moderation Area"
 admin.site.site_title = "entryarea"
 
 
-# admin.AdminSite.site_header = "ea"
+def export_as_json(modeladmin, request, queryset):
+    response = HttpResponse(content_type="application/json")
+    serializers.serialize("json", queryset, stream=response)
+    return response
 
-# LogEntry.objects.all()
 
-class MyAdmin(admin.ModelAdmin):
-    class Media:
-        css = {
-            'all': ('css/admin.css',)
-        }
+admin.site.add_action(export_as_json)
 
 
 class EntryInline(admin.StackedInline):
@@ -43,24 +43,16 @@ class EntryInline(admin.StackedInline):
 class TagInline(admin.TabularInline):
     model = Tag.thread.through
 
-    def formfield_for_manytomany(self, db_field, request, **kwargs):
-        queryset = super().formfield_for_manytomany('thread'. request)
-        queryset = Tag.objects.filter(lang='tr')
-        return queryset
-
-    def formfield_for_choice_field(self, db_field, request, **kwargs):
-        kwargs['choices'] = Tag.objects.filter(lang='tr')
-        return super().formfield_for_choice_field(db_field, request, **kwargs)
-
 
 class ThreadAdmin(admin.ModelAdmin):
 
     fieldsets = [
-        (None, {'fields': [('title', 'id')]}),
-        ("Options", {'fields': [('lang', 'user', 'slug', 'deleted_at')],
+        (None, {'fields': [('title', 'id', 'slug')]}),
+        ("Options", {'fields': [('lang', 'user', 'is_closed'),
+                                ('created_at', 'deleted_at')],
                      'classes': ['collapse']})
     ]
-    list_display = ('id', 'title', 'lang', 'entry_count',
+    list_display = ('id', 'title', 'lang', 'views', 'entry_count',
                     'today_entry_count', 'tag_count')
     list_display_links = ['id']
     list_filter = ('lang', 'last_entry', 'tags', 'created_at')
@@ -69,12 +61,15 @@ class ThreadAdmin(admin.ModelAdmin):
     date_hierarchy = 'last_entry'
     search_fields = ['title', 'id']
     filter_horizontal = ['tags']
-    readonly_fields = ['slug', 'id']
+    readonly_fields = ['slug', 'id', 'created_at']
 
     save_on_top = True
     show_full_result_count = True
     list_per_page = 50
     inlines = [TagInline, EntryInline]
+
+    filter_horizontal = ('tags', )
+
 
     def hard_delete(self, request, queryset):
         if request.user.is_superuser:
@@ -138,13 +133,12 @@ class ThreadAdmin(admin.ModelAdmin):
     isit.boolean = True
     '''
 
-
 class TagAdmin(admin.ModelAdmin):
     list_display = ('id', 'label', 'lang', 'get_thread_count')
 
     filter_horizontal = ('thread',)
 
-    autocomplete_fields = ["thread"]
+    # autocomplete_fields = ["thread"]
     # raw_id_fields = ["thread"]
 
     # def formfield_for_manytomany(self, db_field, request, **kwargs):
