@@ -1,0 +1,14 @@
+{% extends "app/base.html" %}{% load i18n %}
+{% block title_wrapper %}<title>entry area - {% trans "eager society" %}</title>{% endblock %}
+{% block content %}
+  <div id="content" style="margin-top: -30px">
+    {% for entry in entries %}
+      <div id="thread" style="padding-top: 20px; margin-bottom: -35px;">
+        <h2><a href="t/{{ entry.slug }}">{{ entry.title }}</a></h2>
+      </div>
+      <ul id="entries" style="padding-top: -20px">
+        {% include 'app/entry.html' %}
+      </ul>
+    {% endfor %}
+  </div>
+{% endblock %}

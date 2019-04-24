@@ -22,12 +22,12 @@ class Entry(SoftDeletionModel):
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE,
                                related_name='entries')
     favs = models.ManyToManyField(settings.AUTH_USER_MODEL, related_name='favs')
-    created_at = models.DateTimeField(auto_now_add=True)
+    created_at = models.DateTimeField()
     updated_at = models.DateTimeField(blank=True, null=True)
 
     class Meta:
         verbose_name_plural = 'entries'
-        ordering = ['created_at']
+        ordering = ['id']   # Much more speedy than created_at
 
     def __str__(self):
         truncated_entry = Truncator(self.body)
@@ -58,7 +58,15 @@ class Entry(SoftDeletionModel):
     def get_favorites(self):
         return self.favs.all()
 
-    def is_faved(self, user):
-        if user in self.favs:
-            return True
-        return False
+    # def is_faved(self, user):
+    #     if user in self.favs:
+    #         return True
+    #     return False
+
+
+class Favorite(models.Model):
+    id = None
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE,
+                             related_name='favorites')
+    entry = models.ForeignKey(Entry, on_delete=models.CASCADE,
+                              related_name='favorites')

@@ -1,0 +1,19 @@
+{% extends 'app/base.html' %}{% load i18n %}
+{% block title %}@{{ user.username }} - {% endblock %}
+{% block content %}
+  <div id="content">
+    <div id="threads">
+      <h1 style="color: #f7a31c">@{{ user_profile.username }}</h1>
+      <span>{% trans "entries" %}</span>
+      <hr>
+    </div>
+    {% for entry in entries %}
+      <h3><a href="t/{{ entry.slug }}">{{ entry.title }}</a></h3>
+      {#          <p>{{ entry.get_body }}</p>#}
+      <ul id="entries">
+        {% include 'app/entry.html' %}
+        <hr>
+      </ul>
+    {% endfor %}
+  </div>
+{% endblock %}

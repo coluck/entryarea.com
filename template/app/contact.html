@@ -1,0 +1,22 @@
+{% extends 'app/base.html' %}
+{% load i18n %}
+{% load widget_tweaks %}
+
+{% block content %}
+  <div id="content">
+    <div id="thread">
+      <h1>{% trans "contact us" %}</h1>
+      <form method="post">
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag|lower }}
+            {{ field }}
+          </div>
+        {% endfor %}
+        <input class="btn" type="submit" value="{% trans "send" %}" style="margin-top: 30px">
+      </form>
+    </div>
+
+  </div>
+{% endblock %}

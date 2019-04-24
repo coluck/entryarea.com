@@ -1,0 +1,50 @@
+{% extends "app/base.html" %}{% load i18n %}
+
+{% block title %}
+  {% if entry %}
+    {% trans "edit" %} #{{ entry.id }} {{ entry.thread.title }} -
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
+  <div id="content">
+    {% if entry %}
+      <div id="thread">
+        <a href="/t/{{ entry.thread.slug }}">
+          <h2>{{ entry.thread.title }}</h2>
+        </a>
+        <span style="font-size: smaller">{{ entry.thread.views }} {% trans "viewed" %}</span>
+        {% if LANGUAGE != entry.thread.lang %}
+          <div id="alert"><strong>warning!</strong> this thread language is {{ entry.thread.lang }}</div>
+        {% endif %}
+        <hr>
+      </div>
+      <ul id="entries">
+        {% if user.is_authenticated %}
+          <form action="/entry/edit/{{ entry.id }}/" method="POST">
+            {% csrf_token %}
+            {#                                    {{ form.as_p }}#}
+            <div id="entry-area">
+              <textarea name="body" id="entryarea" cols="75%" rows="5">{{ entry.body }}</textarea>
+              <button type="submit" style="margin-left: 1px;margin-top: 10px"
+                      class="btn btn-default">{% trans "save" %}</button>
+            </div>
+          </form>
+        {% else %}
+          <p>
+            {% trans "please" %}
+            <a href="{% url 'user:login' %}?next={{ request.path }}" style="color: #F7A31C">
+              {% trans "enter" %}
+            </a>
+            {% trans "to write" %}.
+          </p>
+        {% endif %}
+      </ul>
+    {% else %}
+      <div class="entry">
+        {% trans "entry could not found" %}
+      </div>
+    {% endif %}
+    <hr>
+{% endblock %}

@@ -2,18 +2,17 @@ import datetime
 import math
 
 from django.conf import settings
-from django.contrib.auth.models import User
 from django.db import models
 from django.template.defaultfilters import slugify
 from django.urls import reverse
 
 from app.core.models import SoftDeletionModel
 
-PAGINATE = 15
+PAGINATE = 10
 
 
 class Thread(SoftDeletionModel):
-    title = models.CharField(max_length=49)
+    title = models.CharField(max_length=49, unique=True)
     lang = models.CharField(max_length=5)
     slug = models.SlugField(max_length=100, unique=True, null=True, blank=True)
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
@@ -50,7 +49,7 @@ class Thread(SoftDeletionModel):
         """ Get the total entry count in the thread """
         return self.entries.count()
 
-    @property  # TODO: learn the difference btw property vs direct
+    @property
     def get_today_entry_count(self):
         """ Get today entry count in the thread """
         return self.entries \
@@ -71,15 +70,31 @@ class Thread(SoftDeletionModel):
 
 class Tag(models.Model):
     label = models.CharField(max_length=30)
+    slug = models.SlugField(max_length=35, unique=True, blank=True)
     descr = models.CharField(max_length=100)
     lang = models.CharField(max_length=5)
     thread = models.ManyToManyField(Thread, blank=True, related_name='tags')
 
     def __str__(self):
-        return self.label+"("+self.lang+")"
+        return f"{self.label}({self.lang})"
+
+    def save(self, *args, **kwargs):
+        if self.slug:
+            self.slug = slugify(self.label)
+
+        tag_with_same_slug = Tag.objects.filter(slug=self.slug)
+
+        if tag_with_same_slug.exists():
+            self.slug = slugify(self.label) + "--" + str(self.id)
+
+        # Save the tag if slug not exists
+        super(Tag, self).save(*args, **kwargs)
+        if not self.slug:
+            self.slug = slugify(self.label)
+            self.save()
 
     def get_absolute_url(self):
-        return slugify(self.label)
+        return reverse('thread:tag-read', args=[self.slug])
 
     def get_thread_count(self):
         return self.thread.count()

@@ -52,6 +52,7 @@ class ThreadAdmin(admin.ModelAdmin):
                                 ('created_at', 'deleted_at')],
                      'classes': ['collapse']})
     ]
+    autocomplete_fields = ['user']
     list_display = ('id', 'title', 'lang', 'views', 'entry_count',
                     'today_entry_count', 'tag_count')
     list_display_links = ['id']
@@ -133,18 +134,31 @@ class ThreadAdmin(admin.ModelAdmin):
     isit.boolean = True
     '''
 
+
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'label', 'lang', 'get_thread_count')
+    list_display = ('id', 'label', 'lang', 'thread_count')
+    list_filter = ('lang',)
 
     filter_horizontal = ('thread',)
 
     # autocomplete_fields = ["thread"]
     # raw_id_fields = ["thread"]
 
-    # def formfield_for_manytomany(self, db_field, request, **kwargs):
-    #     kwargs["queryset"] = Tag.objects.filter(lang=lang())
-    #
-    #     return super().formfield_for_manytomany(db_field, request, **kwargs)
+    def formfield_for_manytomany(self, db_field, request, **kwargs):
+        kwargs["queryset"] = Thread.objects.filter(lang=lang())
+        # Todo: find to get tag language like lang = tag.lang
+        return super().formfield_for_manytomany(db_field, request, **kwargs)
+
+    def get_queryset(self, request):
+        queryset = super().get_queryset(request)
+        queryset = queryset.annotate(_thread_count=
+                                     Count("thread", distinct=True))
+        return queryset
+
+    def thread_count(self, obj):
+        return obj._thread_count
+
+    thread_count.admin_order_field = "_thread_count"
 
 
 admin.site.register(Thread, ThreadAdmin)

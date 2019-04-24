@@ -1,0 +1,18 @@
+{% extends 'app/base.html' %}{% load i18n %}
+{% block title %}{{ title }} - {% endblock %}
+{% block content %}
+  <div id="content">
+    <div id="thread">
+      <h2>{{ title }}</h2>
+      {% if error %}
+        {% trans "this title is invalid." %}
+        <a href="{% url "thread:new" %}" style="color: #F7A31C">{% trans "why?" %}</a>
+      {% else %}
+        {% trans "thread does not exist." %}
+        {% trans "if you want to create this thread be sure it obeys the" %}
+        <a href="{% url "thread:new" %}">{% trans "rules" %}</a>
+        {% include 'app/new_entryarea.html' %}
+      {% endif %}
+    </div>
+  </div>
+{% endblock %}

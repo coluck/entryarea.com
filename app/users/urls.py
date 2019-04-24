@@ -14,6 +14,7 @@ urlpatterns = [
     path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     path('ajax/validate_username', views.validate_username,
          name='validate_username'),
-    path('@<username>', views.Profile.as_view(), name='profile')
+    path('@<username>', views.Profile.as_view(), name='profile'),
+    path('@<username>/favorites', views.favs, name='fav'),
 ]
 

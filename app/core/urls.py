@@ -6,6 +6,6 @@ app_name = 'core'
 
 urlpatterns = [
     path('s', views.Search),
-    path('contact', views.contact),
-    path('success', views.success, name='success')
+    path('contact/', views.contact),
+    path('success/', views.success, name='success')
 ]

@@ -1,0 +1,61 @@
+{% extends "app/base.html" %}
+
+{% load widget_tweaks %}
+{% load i18n %}
+
+{% block title %}register - {% endblock %}
+{% block content %}
+  <div id="content">
+    <div class="row justify-content-center">
+      <h2>{% trans "register" %}</h2>
+      <form method="post" novalidate>
+        {% csrf_token %}
+        {% for field in form %}
+          <div class="form-group">
+            {{ field.label_tag|lower }}
+            {{ field }}
+            {{ field.error_message }}
+                {% for error in field.errors %}
+                  <li style="margin-left: 180px"><p style="color: red">{{ error|escape|lower }}</p></li>
+                {% endfor %}
+            {#            {% if field.help_text %}#}
+            {#              <small class="form-text text-muted">#}
+            {#                {{ field.help_text }}#}
+            {#              </small>#}
+            {#            {% endif %}#}
+          </div>
+        {% endfor %}
+        <button type="submit" class="btn btn-primary btn-block" style="margin: 30px 0">
+          {% trans "create an account" %}
+        </button>
+      </form>
+      <div class="card-footer text-muted text-center">
+        {% trans "already have an account?" %} <a href="{% url 'user:login' %}" style="color: #F7A31C">{% trans "enter" %}</a>
+      </div>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+  <script>
+    $("#id_username").change(function () {
+      var username = $(this).val();
+      {#console.log($(this).val());#}
+
+      $.ajax({
+        url: '/ajax/validate_username',
+        data: {
+          'username': username
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            alert("hey this username was taken");
+            $("#id_username").addClass("alert");
+          }
+        }
+      });
+
+    });
+  </script>
+{% endblock %}

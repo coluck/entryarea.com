@@ -1,0 +1,19 @@
+<div id="lang-switcher">{% load i18n %}
+  <ul id="doc-languages" class="language-switcher">
+    {# TODO: change localhost to domain name #}
+    <li class="other">
+      <a href="{{ request.scheme }}://tr.localhost.com:8000{{ request.get_full_path }}"
+         title="{% trans "turkish" %}">tr</a>
+    </li>
+    <li class="other">
+      <a href="{{ request.scheme }}://en.localhost.com:8000{{ request.get_full_path }}"
+         title="{% trans "english" %}">en</a>
+    </li>
+    <li class=" current">
+      <span>
+          {% trans "language" %}:
+          <strong>{{ LANGUAGE }}</strong>
+        </span>
+    </li>
+  </ul>
+</div>

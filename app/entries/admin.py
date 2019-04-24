@@ -6,10 +6,11 @@ from .models import Entry
 class EntryAdmin(admin.ModelAdmin):
     list_display = ['id', '__str__', 'created_at', 'user', 'thread']
     list_display_links = ['id']
-    list_filter = ('lang', 'user', 'deleted_at')
-    search_fields = ['id', 'user']
-    autocomplete_fields = ['thread']
-    fields = ('body', 'user', ('lang', 'thread', 'deleted_at'))
+    ordering = ['id']
+    list_filter = ['lang', 'deleted_at']
+    search_fields = ['id', 'user__username']
+    autocomplete_fields = ['thread', 'user']
+    fields = ['thread', 'body', 'user', ('lang', 'deleted_at', 'created_at')]
     actions = ['hard_delete', 'undo_delete']
     list_per_page = 30
 
@@ -36,14 +37,12 @@ class EntryAdmin(admin.ModelAdmin):
                 del actions['undo_delete']
         return actions
 
-    """ 
-    def get_list_display(self, request):
-        list_display = super().get_list_display(request)
+    def get_list_filter(self, request):
+        list_filter = super().get_list_filter(request)
         if not request.user.is_superuser:
-            if 'deleted_at' in list_display:
-                del list_display[-1]    # to remove deleted_at attr
-        return list_display
-    """
+            if 'deleted_at' in list_filter:
+                del list_filter[list_filter.index('deleted_at')]
+        return list_filter
 
     def get_queryset(self, request):
         if request.user.is_superuser:

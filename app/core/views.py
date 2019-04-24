@@ -1,17 +1,23 @@
 import json
 import re
 
+from django.contrib import messages
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse, JsonResponse
 from django.shortcuts import redirect, render
+from django.urls import reverse
 from django.utils.translation import get_language as lang
+from django.utils.translation import ugettext as _
+
 
 from app.threads.models import Thread
+from app.threads.forms import TitleForm, ThreadForm
 from app.entries.forms import EntryForm
 from app.users.models import User
-from core.forms import ContactForm
+from .forms import ContactForm
 
 
+from django.core.exceptions import ObjectDoesNotExist
 def search(request):
     if request.is_ajax():
         term = request.GET.get('term', '')
@@ -38,12 +44,13 @@ def search(request):
         try:
             thread = Thread.objects.get(title=title, lang=lang())
             return redirect(thread)
-        except Thread.DoesNotExist:
+        except Thread.DoesNotExist:  # Don't works
+            print("Works")
             form = EntryForm()
             form.fields['body'].widget.attrs['placeholder'] = \
                 "enlight us about " + str(title)
-            # return render(request, 'threads/store.html', {'title': str(title), 'form': form})
-            return redirect("thread:new", title=title)
+            return render(request, 'threads/store.html', {'title': str(title), 'form': form})
+            # return redirect("thread:new", title=title)
 
 
 def Search(request):
@@ -69,8 +76,8 @@ def Search(request):
         get = request.GET.get('q')
         data = get.strip()
         if data[0] == '@':
-            user = User.objects.get(username=data)
-            return redirect(user)
+            user = User.objects.get(username=data[1:])
+            return redirect(reverse("user:profile", args=[user.username]))
 
         elif data[0] == '#':
             return redirect("entry:read", pk=data[1:])
@@ -80,12 +87,17 @@ def Search(request):
             try:
                 thread = Thread.objects.get(title=title, lang=lang())
                 return redirect(thread)
-            except Thread.DoesNotExist:
-                form = EntryForm()
-                form.fields['body'].widget.attrs['placeholder'] = \
+            except ObjectDoesNotExist:
+                eform = EntryForm()
+                tform = ThreadForm({'title': title})
+
+                eform.fields['body'].widget.attrs['placeholder'] = \
                     "write something to create this thread"
+                if tform.is_valid():
+                    return render(request, 'threads/store.html',
+                                  {'title': title, 'eform': eform, 'tform': tform})
                 return render(request, 'threads/store.html',
-                              {'title': str(title), 'form': form})
+                              {'title': title, 'error': True})
 
 
 def contact(request):
@@ -108,4 +120,5 @@ def contact(request):
 
 
 def success(request):
-    return HttpResponse('Success! Thank you for your message.')
+    messages.success(request, _("your message sent successfully"))
+    return redirect('/')

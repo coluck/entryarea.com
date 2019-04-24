@@ -1,0 +1,29 @@
+.ui-widget-content {
+    z-index: 99;
+    border: none;
+    color: #fff;
+    background: none;
+    background-color: #222222;
+    border-radius: 5px;
+    font-size: inherit;
+}
+
+ui-autocomplete {
+    margin-top: -1px;
+    margin-top: 8px;
+}
+
+.ui-menu {
+    margin-top: 10px;
+}
+
+.ui-menu-item-wrapper {
+    padding: 5px 0px;
+}
+
+.ui-state-active, .ui-widget-content .ui-state-active, .ui-widget-header .ui-state-active {
+    background-color: #bdbdbd;
+    /*padding: 4px 0px;*/
+    color: #2d2d2d;
+    border: none;
+}

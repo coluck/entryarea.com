@@ -1,0 +1,38 @@
+{% extends "app/base.html" %}{% load i18n %}
+
+{% block title %}
+  {% if entry %}
+    {% trans "delete" %} #{{ entry.id }} {{ entry.thread.title }} -
+  {% endif %}
+{% endblock %}
+
+
+{% block content %}
+  <div id="content">
+    {% if entry %}
+      <div id="thread">
+        <a href="/t/{{ entry.thread.slug }}">
+          <h2>{{ entry.thread.title }}</h2>
+        </a>
+        <span style="font-size: smaller">{{ entry.thread.views }} {% trans "viewed" %}</span>
+        {% if LANGUAGE != entry.thread.lang %}
+          <div id="alert"><strong>warning!</strong> this thread language is {{ entry.thread.lang }}</div>
+        {% endif %}
+        <hr>
+      </div>
+      <ul id="entries">
+        {% include "app/entry.html" %}
+      </ul>
+    {% else %}
+      <div class="entry">
+        {% trans "entry could not found" %}
+      </div>
+    {% endif %}
+    <hr>
+    <form method="POST">
+      {% csrf_token %}
+      <p>{% trans "are you sure you want to delete this entry?" %}</p>
+      <input class="btn" type="submit" value="{% trans "delete" %}">
+    </form>
+  </div>
+{% endblock %}

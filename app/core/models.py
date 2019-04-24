@@ -46,6 +46,7 @@ class SoftDeletionModel(models.Model):
 
     def delete(self, **kwargs):
         self.deleted_at = timezone.now()
+        self.save()
 
     def hard_delete(self):
         super(SoftDeletionModel, self).delete()

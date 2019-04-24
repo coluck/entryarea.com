@@ -1,0 +1,48 @@
+<div id="leftpane" class="style-1 not-mbl">{% load i18n %}
+  <h2>{% trans "week" %}</h2>
+  <div class="nowalldiv">
+    <button id="now" class="more nowall">{% trans "week" %}</button>
+    <button id="all" class="more nowall">{% trans "all" %}</button>
+    <hr style="margin-left: 6px; margin-right: 30px">
+  </div>
+  <ul>
+{#    {% for thread in threads %}#}
+{#      <li><a href="/t/{{ thread.slug }}">{{ thread.title }}<span>{{ thread.ecnt }}</span></a></li>#}
+{#    {% endfor %}#}
+  </ul>
+</div>
+
+{% block script %}
+  <script>
+    $(function () {
+      if ($("#leftpane > li").length === 0) {
+        let data = JSON.parse(localStorage.getItem("threads"));
+        if(data === null)
+          $("#now").click();
+        console.log(data);
+        for (let key in data) {
+          $("#leftpane>ul").append("<li><a href=/t/" + data[key].slug + ">" +
+            data[key].title + "<span>" + data[key].cnt + "</span></a></li>");
+        }
+      }
+    });
+
+    $(".nowall").click(function () {
+      let typ = this.id == "now" ? "now" : "all";
+      $("#leftpane>h2").text($(this).text());
+      $.ajax({
+        url: "/api/" + typ,
+        success: function (data) {
+          let threads = data;
+          localStorage.setItem("threads", JSON.stringify(threads));
+          console.log("success", data);
+          $("#leftpane>ul>li").remove();
+          for (let key in data) {
+            $("#leftpane>ul").append("<li><a href=/t/" + data[key].slug + ">" +
+              data[key].title + "<span>" + data[key].cnt + "</span></a></li>");
+          }
+        }
+      });
+    });
+  </script>
+{% endblock %}

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-03-05 23:31+0300\n"
+"POT-Creation-Date: 2019-04-24 13:42+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,23 +18,69 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/entries/exviews.py:152 app/entries/views.py:143
+#: app/core/views.py:123
 #, fuzzy
 #| msgid "your thread was published successfully"
-msgid "your entry was published"
-msgstr "entry'in başarıyla yayınlandı"
+msgid "your message sent successfully"
+msgstr "başlığın başarıyla yayınlandı"
 
-#: app/entries/views.py:122
+#: app/entries/views.py:104
+#, fuzzy
+#| msgid "this thread is closed don't even try"
+msgid "this entry is not your. don't even try"
+msgstr "bu entry senin degil, ayip degil mi ama"
+
+#: app/entries/views.py:111
+#, fuzzy
+#| msgid "your thread was published successfully"
+msgid "your entry was deleted successfully"
+msgstr "başlığın başarıyla yayınlandı"
+
+#: app/entries/views.py:119
 msgid "this thread is closed don't even try"
 msgstr "bu başlık kapanmış, aklından geçeni deneme bile"
 
-#: app/threads/forms.py:29
+#: app/entries/views.py:138
+#, fuzzy
+#| msgid "your thread was published successfully"
+msgid "your entry was published"
+msgstr "entry'in başarıyla yollandı"
+
+#: app/threads/forms.py:26 app/threads/forms.py:50
 msgid "invalid title for thread"
 msgstr "olmaz olsun böyle başlık"
 
-#: app/threads/views.py:82
+#: app/threads/forms.py:29
+msgid "thread can not start with @"
+msgstr "baslik '@' sembolü ile baslayamaz"
+
+#: app/threads/views.py:124
 msgid "your thread was published successfully"
 msgstr "başlığın başarıyla yayınlandı"
+
+#: app/threads/views.py:226
+msgid "en light us about "
+msgstr "bir seyler yaz sunun hakkinda"
+
+#: app/users/models.py:18
+msgid ""
+"enter a nick that contains only 42 characters or fewer.may contain english "
+"letters, numbers, and ./+/-/_ characters."
+msgstr ""
+"en fazla 42 karakterden oluşan bir nick giriniz. sayı, harf ve ./+/-/_ "
+"karakterlerini içerebilir."
+
+#: app/users/models.py:30
+msgid "username"
+msgstr ""
+
+#: app/users/models.py:33
+msgid "required. 42 characters or fewer. letters, digits and ./+/-/_ only."
+msgstr ""
+
+#: app/users/models.py:36
+msgid "this nick was taken."
+msgstr ""
 
 #: config/settings/base.py:16
 msgid "Turkish"
@@ -44,83 +90,162 @@ msgstr "Türkçe"
 msgid "English"
 msgstr "İngilizce"
 
-#: templates/admin/base_site.html:5
+#: template/admin/base_site.html:7
 msgid "Django site admin"
 msgstr ""
 
-#: templates/admin/base_site.html:12
+#: template/admin/base_site.html:18
 msgid "Django administration"
 msgstr ""
 
-#: templates/app/base.html:44 templates/threads/index.html:8
-#: templates/threads/lefting.html:4
-msgid "threads"
-msgstr "başlıklar"
-
-#: templates/app/base.html:46
-msgid "tags"
-msgstr "kategoriler"
-
-#: templates/app/base.html:51
-#| msgid "thread, entry or user"
+#: template/app/base.html:60
 msgid "thread, #entry or @user"
 msgstr "başlık, #entry veya @kullanıcı"
 
-#: templates/app/base.html:63
+#: template/app/base.html:92
+#, fuzzy
+#| msgid "more"
+msgid "me"
+msgstr "ben"
+
+#: template/app/base.html:99
 msgid "logout"
 msgstr "çıkış"
 
-#: templates/app/base.html:65 templates/app/entryarea.html:17
+#: template/app/base.html:102 template/app/base.html:123
+#: template/app/entryarea.html:10 template/app/new_entryarea.html:12
+#: template/auth/login.html:15 template/auth/register.html:33
+#: template/entries/update.html:38 template/threads/read.html:42
 msgid "enter"
 msgstr "giriş"
 
-#: templates/app/base.html:66
+#: template/app/base.html:103 template/app/base.html:122
+#: template/auth/register.html:10
 msgid "register"
-msgstr "kayış"
+msgstr "kayıt"
 
-#: templates/app/base.html:88
-msgid "language"
-msgstr "dil"
+#: template/app/base.html:120 template/threads/index.html:6
+#: template/threads/tag-read.html:6
+msgid "threads"
+msgstr "başlıklar"
 
-#: templates/app/entry.html:15 templates/entries/confirm_delete.html:19
-msgid "delete"
-msgstr "sil"
+#: template/app/base.html:121 template/threads/tag-index.html:6
+msgid "tags"
+msgstr "kategoriler"
 
-#: templates/app/entry.html:16
-msgid "edit"
-msgstr "düzelt"
+#: template/app/contact.html:8
+msgid "contact us"
+msgstr "bize ulaş"
 
-#: templates/app/entryarea.html:10
+#: template/app/contact.html:17 template/app/entryarea.html:6
+#: template/app/new_entryarea.html:8
 msgid "send"
 msgstr "yolla"
 
-#: templates/app/entryarea.html:16
+#: template/app/entryarea.html:9 template/app/new_entryarea.html:11
+#: template/entries/update.html:36 template/threads/read.html:40
 msgid "please"
 msgstr "yazmak için lütfen"
 
-#: templates/app/entryarea.html:18
+#: template/app/entryarea.html:11 template/app/new_entryarea.html:13
+#: template/entries/update.html:40 template/threads/read.html:44
 msgid "to write"
 msgstr "yapınız"
 
-#: templates/entries/confirm_delete.html:18
-msgid "are you sure you want to delete this entry?"
-msgstr "entry'yi silmek istiyor musun cidden?"
+#: template/app/leftpane.html:2 template/app/leftpane.html:4
+msgid "week"
+msgstr "hafta"
 
-#: templates/entries/read.html:30 templates/entries/read.html:42
-msgid "more"
-msgstr "daha"
+#: template/app/leftpane.html:5
+msgid "all"
+msgstr "hepsi"
 
-#: templates/entries/read.html:59
+#: template/auth/profile.html:7
+msgid "entries"
+msgstr "entry'leri"
+
+#: template/auth/register.html:29
+msgid "create an account"
+msgstr "hesap ac"
+
+#: template/auth/register.html:33
+msgid "already have an account?"
+msgstr "hesabin var mi?"
+
+#: template/entries/confirm_delete.html:5
+#: template/entries/confirm_delete.html:35
+msgid "delete"
+msgstr "sil"
+
+#: template/entries/confirm_delete.html:17 template/entries/read.html:17
+#: template/entries/update.html:17 template/threads/read.html:10
+msgid "viewed"
+msgstr "görüntüleme"
+
+#: template/entries/confirm_delete.html:28 template/entries/read.html:47
+#: template/entries/update.html:46
 msgid "entry could not found"
 msgstr "böyle bir entry bulunamadı belki de hiç yoktu"
 
-#: templates/entries/update.html:23
+#: template/entries/confirm_delete.html:34
+msgid "are you sure you want to delete this entry?"
+msgstr "entry'yi silmek istiyor musun cidden?"
+
+#: template/entries/read.html:31 template/entries/read.html:40
+msgid "more"
+msgstr "daha"
+
+#: template/entries/update.html:5
+msgid "edit"
+msgstr "düzelt"
+
+#: template/entries/update.html:31
 msgid "save"
 msgstr "kaydet"
 
-#: templates/threads/read.html:12
-msgid "viewed"
-msgstr "görüntüleme"
+#: template/partial/lang-switcher.html:6
+msgid "turkish"
+msgstr "türkçe"
+
+#: template/partial/lang-switcher.html:10
+msgid "english"
+msgstr "ingilizce"
+
+#: template/partial/lang-switcher.html:14
+msgid "language"
+msgstr "dil"
+
+#: template/threads/idx.html:2
+msgid "eager society"
+msgstr "hevesliler"
+
+#: template/threads/read.html:14
+msgid "warning!"
+msgstr "dikkat!"
+
+#: template/threads/read.html:15
+msgid "the language of this thread is"
+msgstr "bu basligin dili"
+
+#: template/threads/store.html:8
+msgid "this title is invalid."
+msgstr "olamaz böyle bir baslik."
+
+#: template/threads/store.html:9
+msgid "why?"
+msgstr "neden mi?"
+
+#: template/threads/store.html:11
+msgid "thread does not exist."
+msgstr "böyle bir baslik yok."
+
+#: template/threads/store.html:12
+msgid "if you want to create this thread be sure it obeys the"
+msgstr "eger ki bu basligi olusturmak istiyorsaniz kurallara uydugundan"
+
+#: template/threads/store.html:13
+msgid "rules"
+msgstr "emin olun"
 
 #: venv/lib/python3.6/site-packages/django/contrib/messages/apps.py:7
 msgid "Messages"
@@ -165,7 +290,7 @@ msgstr ""
 
 #: venv/lib/python3.6/site-packages/django/core/validators.py:165
 msgid "Enter a valid email address."
-msgstr ""
+msgstr "geçerli bir mail adresi girin."
 
 #. Translators: "letters" means latin letters: a-z and A-Z.
 #: venv/lib/python3.6/site-packages/django/core/validators.py:239
@@ -1292,3 +1417,6 @@ msgstr ""
 #: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:408
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "en"
+#~ msgstr "ing"

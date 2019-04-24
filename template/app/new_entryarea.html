@@ -1,0 +1,16 @@
+{% load i18n %}
+{% if user.is_authenticated %}
+  <div id="entry-area">
+    <form action="/thread/new/" method="POST">
+      {% csrf_token %}
+      {{ tform.as_p }}
+      {{ eform.as_p }}
+      <button id="share" class="btn" type="submit">{% trans "send" %}</button>
+    </form>
+    {% else %}
+    <p class="text-center">{% trans "please" %}
+      <a href="{% url 'user:login' %}?next={{ request.get_full_path }}">{% trans "enter" %}</a>
+      {% trans "to write" %}
+    </p>
+  </div>
+{% endif %}

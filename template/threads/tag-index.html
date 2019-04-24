@@ -1,0 +1,21 @@
+{% extends 'app/base.html' %}{% load i18n %}
+{% block title %}tags - {% endblock %}
+{% block content %}
+  <div id="content">
+    <div id="thread">
+      <h1>{% trans "tags" %}</h1>
+      <hr>
+    </div>
+    <div id="entries">
+      {#    TODO: make a threads class in css #}
+      {% for tag in tags %}
+        <a href="{% url "thread:tag-read" tag.slug %}" style="margin-left: 15px" title="{{ tag.descr }}">
+          <div class="hoverable" style="padding: 15px 0">
+            #{{ tag.label }}
+            <span style="position: relative; float: right; margin-right: 20px">{{ tag.tcnt }}</span>
+          </div>
+        </a>
+      {% endfor %}
+    </div>
+  </div>
+{% endblock %}

@@ -1,7 +1,7 @@
 from django.contrib.auth import login
 from django.contrib.auth.views import LoginView
 from django.db.models import F
-from django.http import JsonResponse
+from django.http import JsonResponse, HttpResponse
 from django.utils.translation import get_language as lang
 from django.views import generic
 from django.shortcuts import render, redirect, get_object_or_404
@@ -18,7 +18,7 @@ class Login(LoginView):
 
 def register(request):
     if request.user.is_authenticated:
-        return redirect('thread:index')
+        return redirect('/')
 
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -66,9 +66,10 @@ class Profile(generic.ListView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
-        context['user'] = self.user
+        context['user_profile'] = self.user
         return context
 
 
-
-
+def favs(request, username):
+    user = get_object_or_404(User, username=username)
+    return HttpResponse(user.favs.all())
