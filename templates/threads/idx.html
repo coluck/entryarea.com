@@ -1,0 +1,27 @@
+{% extends "app/base.html" %}{% load i18n %}
+{% block title_wrapper %}
+  <title>entry area - {% trans "eager society" %}</title>
+{% endblock %}
+{% block content %}
+  {% for entry in entries %}
+    <div name="thread" class="panel">
+      <p class="title is-4">
+        <a href="{% url "thread:read" entry.slug %}">
+          {{ entry.title }}
+        </a>
+      </p>
+    </div>
+    <div name="body">
+      {% include "app/entry.html" %}
+    </div>
+    <br><br>
+  {% endfor %}
+{% endblock %}
+
+{% block rightpane %}
+  {% if request.user.is_staff %}
+    <a href="{% url "admin:index" %}" class="primary">
+      moderation area
+    </a>
+  {% endif %}
+{% endblock %}

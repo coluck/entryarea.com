@@ -1,7 +1,10 @@
 from typing import Any, Union
 
+from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.text import Truncator
+from django.utils.translation import gettext_lazy as _
 
 
 class SoftDeletionQuerySet(models.QuerySet):
@@ -50,3 +53,26 @@ class SoftDeletionModel(models.Model):
 
     def hard_delete(self):
         super(SoftDeletionModel, self).delete()
+
+
+class ContactMessage(models.Model):
+    ADVICE = "ADV"
+    COMPLAIN = "COM"
+    OTHER = "OTH"
+
+    # MESSAGE_TYPE = [
+    #     (ADVICE, _("advice")),
+    #     (COMPLAIN, _("complain")),
+    #     (OTHER, _("other"))
+    # ]
+    subject = models.CharField(max_length=64)
+    message = models.TextField(max_length=5000)
+    # message_type = models.CharField(choices=MESSAGE_TYPE, max_length=3)
+    email = models.EmailField(blank=True, null=True)
+    user = models.ForeignKey(settings.AUTH_USER_MODEL, null=True, on_delete=models.CASCADE)
+    lang = models.CharField(choices=settings.LANGUAGES, max_length=2)
+    created_at = models.DateTimeField(auto_now_add=True)
+
+    def __str__(self):
+        truncated_entry = Truncator(self.message)
+        return str(truncated_entry.chars(30))

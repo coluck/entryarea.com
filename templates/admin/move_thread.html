@@ -1,0 +1,32 @@
+{% extends "admin/base_site.html" %}
+{% load i18n %}
+
+{% block title %}
+  move thread  | entryarea
+{% endblock %}
+
+{% block breadcrumbs %}
+<div class="breadcrumbs">
+<a href="{% url 'admin:index' %}">{% trans 'Home' %}</a>
+&rsaquo; <a href="{% url 'admin:index' %}threads"> Threads </a>&rsaquo;
+  <a href="{% url "admin:index" %}threads/thread"> Threads </a>
+</div>
+{% endblock %}
+
+{% block content %}
+  <form action="{% url "admin:move"%}" method="post">
+    {% csrf_token %}
+    <h1>Move Thread</h1>
+    <label for="from" style="font-weight: bold; width: 50px; display: inline-block">from: </label>
+    <input type="text" name="from" value="{{ order.pk }}" placeholder="#thread_id"/>
+    <br>
+    <label for="to" style="font-weight: bold; width: 50px; display: inline-block">to:</label>
+    <input type="text" name="to" value="{{ order.pk }}" placeholder="#thread_id"/>
+    <br>
+    <input type="checkbox" name="close_from">close from thread
+    <br>
+    <input type="checkbox" name="add_see">add see tag to from thread"
+    <br>
+    <input type="submit" name="apply" value="Move Thread"/>
+  </form>
+{% endblock %}

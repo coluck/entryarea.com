@@ -1,0 +1,26 @@
+{% extends "app/base.html" %}{% load tz %}{% get_current_timezone as TIME_ZONE %}{% load i18n %}
+
+{% block title %}
+  {% trans "set timezone" %}
+{% endblock %}
+{% block content %}
+  <div class="title">
+    {% trans "set timezone" %}
+  </div>
+    {{ TIME_ZONE }}
+
+  <form action="{% url 'core:timezone' %}" method="POST">
+    {% csrf_token %}
+    <div class="field">
+      <div class="control">
+        <label class="label" for="timezone">{% trans "time zone:" %}</label>
+        <select name="timezone" class="select">
+          {% for tz in timezones %}
+            <option value="{{ tz }}"{% if tz == TIME_ZONE %} selected{% endif %}>{{ tz }}</option>
+          {% endfor %}
+        </select>
+      </div>
+    </div>
+    <input class="button is-primary " type="submit" value="{% trans "set" %}"/>
+  </form>
+{% endblock %}

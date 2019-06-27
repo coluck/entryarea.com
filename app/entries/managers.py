@@ -1,25 +1,36 @@
 from django.db import models
-from django.db.models import Count, Q
+from django.db.models import Count, Q, OuterRef, Exists
 from django.utils.functional import SimpleLazyObject
 
 from app.core.models import SoftDeletionManager, SoftDeletionQuerySet
+# from . models import Favorite
 
 
-class EntryWithFavQuerySet(models.QuerySet):
-    def favs(self, user):
-        if user.is_anonymous:
-            return
-        is_faved = Count('favs', filter=Q(favs__in=[user]))
-        return self.annotate(is_faved=is_faved)
+class EntryQuerySet(SoftDeletionQuerySet):
+    def with_favs(self, user=None):
+        qs = super(SoftDeletionQuerySet, self)\
+            .annotate(fav_cnt=Count("favorites"))
+        if user.is_authenticated:
+            from app.entries.models import Favorite
+            is_fav = Favorite.objects.filter(
+                entry_id=OuterRef('pk'),
+                user_id=user.id
+            )
+            qs = qs.annotate(is_faved=Exists(is_fav))
+        return qs
 
 
-class EntryWithFavManager(models.Manager):
-    # def get_queryset(self):
-    #     return EntryWithFavQuerySet(self.model, using=self._db)
-    def get_queryset(self):
-        if self.alive_only:
-            return EntryWithFavQuerySet(self.model, using=self._db).filter(deleted_at=None)
-        return EntryWithFavQuerySet(self.model)
+class EntryManager(SoftDeletionManager):
+    def get_queryset(self, **kwargs):
+        return EntryQuerySet(self.model).filter(deleted_at=None)\
+            .filter(is_published=True).defer("deleted_at", "first_body", "is_published")
 
-    def favs(self, user):
-        return self.get_queryset().favs(user)
+    def fav_qs(self, user=None):
+        qs = super().get_queryset()
+        from app.entries.models import Favorite
+        is_fav = Favorite.objects.filter(
+            entry_id=OuterRef('pk'),
+            user_id=user.id
+        )
+        return qs.annotate(fav_cnt=Count("favorites")) \
+                 .annotate(is_faved=Exists(is_fav))

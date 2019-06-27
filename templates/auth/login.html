@@ -1,0 +1,39 @@
+{% extends "app/base.html" %} {% load i18n %}{% load widget_tweaks %}
+{% block content %}
+  <p class="title is-3">{% trans "enter" %}</p>
+  {% if form.errors %}
+    <div class="message is-danger is-small">
+      <div class="message-body ">
+        {% trans "your nick and password didn't match. please try again." %}
+      </div>
+    </div>
+  {% endif %}
+  <form method="post" action="{% url 'user:login' %}">
+    {% csrf_token %}
+    <div class="field">
+      <label class="label">{% trans "nick" %}</label>
+      <div class="control">
+        {% render_field form.username class="input" %}
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">{% trans "password" %}</label>
+      <div class="control">
+        {% render_field form.password class="input" %}
+      </div>
+    </div>
+    <input type="hidden" name="next" value="{{ next }}"/>
+    <div class="field">
+      <div class="control">
+        <button class="button is-primary is-outlined is-rounded" type="submit"
+                value="enter">{% trans "enter" %}</button>
+      </div>
+    </div>
+  </form>
+  <a href="{% url "user:password_reset" %}" class="primary is-pulled-right">{% trans "forget password?" %}</a>
+{% endblock %}
+
+{% block rightpane %}
+  <p>{% trans "don't you have account yet?" %}</p>
+  <a href="{% url "user:register" %}" class="primary">{% trans "register" %}</a>
+{% endblock %}

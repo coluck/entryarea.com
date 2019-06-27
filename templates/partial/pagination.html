@@ -1,0 +1,27 @@
+{% if is_paginated %}
+  <div class="field">
+    <div class="control">
+      {% if page_obj.has_previous %}
+        <a href="{{ request.get_path }}?page={{ page_obj.previous_page_number }}">
+          <button id="pag" class="button is-primary is-outlined is-small is-rounded"><</button>
+        </a>
+      {% endif %}
+      <div class="select is-primary is-small is-rounded" style="margin: 0 3px">
+        <select name="" id="paginator" class="dark-pag">
+          {% for i in paginator.page_range %}
+            {% if page_obj.number == i %}
+              <option selected value="{{ i }}">{{ i }}</option>
+            {% else %}
+              <option value="{{ i }}">{{ i }}</option>
+            {% endif %}
+          {% endfor %}
+        </select>
+      </div>
+      {% if page_obj.has_next %}
+        <a href="{{ request.get_path }}?page={{ page_obj.next_page_number }}">
+          <button id="pag" class="button is-primary is-outlined is-small is-rounded">></button>
+        </a>
+      {% endif %}
+    </div>
+  </div>
+{% endif %}

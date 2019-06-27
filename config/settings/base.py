@@ -13,8 +13,9 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.dirname(__file__)))
 SECRET_KEY = config('SECRET_KEY')
 
 LANGUAGES = [
-    ('tr', _('Turkish')),
     ('en', _('English')),
+    ('tr', _('Turkish')),
+    # ('de', _('German')), # don't forget lang middleware
 ]
 
 
@@ -28,7 +29,7 @@ ALLOWED_HOSTS = []
 LOGIN_URL = "/enter"
 LOGIN_REDIRECT_URL = "/"
 
-# SESSION_COOKIE_DOMAIN = ['.localhost.com', 'localhost:8000']  # TODO: Don't Work. Find solution.
+# SESSION_COOKIE_DOMAIN = ['.localhost.com', 'localhost:8000']  # Don't Work. Find solution.
 # SESSION_COOKIE_DOMAIN = None  # Worked Like Test It
 # Application definition
 
@@ -59,6 +60,7 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
 
     'app.core.middleware.SubdomainLanguageMiddleware',
+    'app.core.middleware.TimezoneMiddleware',
 ]
 
 ROOT_URLCONF = 'config.urls'

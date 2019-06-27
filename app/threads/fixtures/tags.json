@@ -1,46 +1,201 @@
 [
   {
-    "model": "threads.Tag",
+    "model": "threads.tag",
     "pk": 1,
     "fields": {
-      "label": "art",
-      "descr": "a way to signify your opinion. to show your imagination...",
+      "label": "news",
+      "slug": "news",
+      "descr": "all news all around the world",
       "lang": "en"
     }
   },
   {
-    "model": "threads.Tag",
+    "model": "threads.tag",
     "pk": 2,
     "fields": {
-      "label": "world",
-      "descr": "all about the place where we fucked off and live.",
+      "label": "music",
+      "slug": "music",
+      "descr": "c\u0131st\u0131k j\u0131stic",
       "lang": "en"
     }
   },
   {
-    "model": "threads.Tag",
+    "model": "threads.tag",
     "pk": 3,
     "fields": {
-      "label": "technology",
-      "descr": "the application of science, math, engineering.",
+      "label": "literature",
+      "slug": "literature",
+      "descr": "dostoyevski, kafka, dickens",
       "lang": "en"
     }
   },
   {
-    "model": "threads.Tag",
+    "model": "threads.tag",
     "pk": 4,
     "fields": {
-      "label": "sport",
-      "descr": "the hard way to burn calories.",
+      "label": "movie",
+      "slug": "movie",
+      "descr": "tarantinos, holywood",
       "lang": "en"
     }
   },
   {
-    "model": "threads.Tag",
+    "model": "threads.tag",
     "pk": 5,
     "fields": {
-      "label": "music",
-      "descr": "a good transportation vehicle for minds.",
+      "label": "tv",
+      "slug": "tv",
+      "descr": "all about series, tv shows etc.",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 6,
+    "fields": {
+      "label": "education",
+      "slug": "education",
+      "descr": "universities",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 7,
+    "fields": {
+      "label": "relationships",
+      "slug": "relationships",
+      "descr": "fall in love, women, men, trans",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 8,
+    "fields": {
+      "label": "v.s",
+      "slug": "vs",
+      "descr": "versusrev",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 9,
+    "fields": {
+      "label": "technology",
+      "slug": "technology",
+      "descr": "know-how",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 10,
+    "fields": {
+      "label": "science",
+      "slug": "science",
+      "descr": "science bitch!",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 11,
+    "fields": {
+      "label": "art",
+      "slug": "art",
+      "descr": "artistic stuf",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 12,
+    "fields": {
+      "label": "personality",
+      "slug": "personality",
+      "descr": "people, persons etc.",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 13,
+    "fields": {
+      "label": "economy",
+      "slug": "economy",
+      "descr": "money bitch",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 14,
+    "fields": {
+      "label": "vehicle",
+      "slug": "vehicle",
+      "descr": "otomobiles, motors, flys",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 15,
+    "fields": {
+      "label": "entry-area",
+      "slug": "entry-area",
+      "descr": "things in entryarea",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 16,
+    "fields": {
+      "label": "world",
+      "slug": "world",
+      "descr": "earth",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 17,
+    "fields": {
+      "label": "politics",
+      "slug": "politics",
+      "descr": "lie, lies",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 18,
+    "fields": {
+      "label": "ideas",
+      "slug": "ideas",
+      "descr": "functional",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 19,
+    "fields": {
+      "label": "software",
+      "slug": "software",
+      "descr": "programming",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 20,
+    "fields": {
+      "label": "others",
+      "slug": "others",
+      "descr": "no name",
       "lang": "en"
     }
   }

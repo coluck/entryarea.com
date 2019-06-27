@@ -2,6 +2,8 @@ from django.contrib import admin
 from django.contrib.admin.models import LogEntry
 from django.contrib.sessions.models import Session
 
+from app.core.models import ContactMessage
+
 
 class Logger(admin.ModelAdmin):
     # fieldsets = [
@@ -16,5 +18,14 @@ class Logger(admin.ModelAdmin):
 
 
 admin.site.register(LogEntry, Logger)
+
+
+class Messages(admin.ModelAdmin):
+    list_display = ('__str__', 'subject', 'user', 'email')
+    list_filter = ("lang", "created_at")
+    date_hierarchy = 'created_at'
+
+
+admin.site.register(ContactMessage, Messages)
 
 # admin.site.register(Session)

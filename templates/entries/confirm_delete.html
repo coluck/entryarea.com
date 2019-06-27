@@ -1,0 +1,40 @@
+{% extends "app/base.html" %}{% load i18n %}
+{% block title %}
+  {% trans "delete entry" %} - #{{ entry.id }}
+{% endblock %}
+{% block content %}
+  <p class="title is-4">
+    <a href="{{ entry.thread.get_absolute_url }}">{{ entry.thread.title }}</a>
+  </p>
+  {% include "app/entry.html" %}
+  <div class="modal is-active is-clipped">
+  <div class="modal-background"></div>
+  <div class="modal-card">
+    <div class="modal-card-head">
+      <p class="has-text-light">{% trans "are you sure you want to delete this entry?" %}</p>
+    </div>
+    <div class="modal-card-body">
+      <form method="post">
+        {% csrf_token %}
+        <div class="field">
+          <div class="control">
+{#            <a href="/">#}
+{#              <button class="button is-danger is-outlined is-rounded" type="submit">#}
+{#                {% trans "delete" %}#}
+{#              </button>#}
+{#            </a>#}
+            <input class="button is-danger is-outlined is-rounded" type="submit" value="{% trans "delete" %}">
+            <a class="button is-warning is-outlined is-rounded is-pulled-right"
+               href="{% url "entry:read" entry.id %}">
+                {% trans "cancel" %}
+            </a>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
+
+{% block script %}
+
+{% endblock %}

@@ -1,0 +1,107 @@
+{% extends "app/base.html" %} {% load i18n %}{% load widget_tweaks %}
+
+{% block title %}
+  {% trans "register" %} -
+{% endblock %}
+{% block content %}
+  <p class="title">{% trans "register" %}</p>
+  <form id="reg" method="post" action="{% url 'user:register' %}">
+    {% csrf_token %}
+    <div class="field">
+      <label class="label">{% trans "nick" %}</label>
+      <div class="control">
+        {% render_field form.username class="input" id="nick" %}
+        <p class="help">
+          {% trans form.username.help_text %}
+        </p>
+        {% if form.username.errors %}
+          <p class="help is-danger">
+            {% for error in form.username.errors %}
+              {{ error|lower }}
+            {% endfor %}
+          </p>
+        {% endif %}
+        <p id="nick-help" class="help is-danger is-hidden">
+          {% trans "this nick was taken before" %}
+        </p>
+      </div>
+    </div>
+    <div class="field">
+      <label class="label">{% trans "email" %}</label>
+      <div class="control">
+        {% render_field form.email class="input" %}
+      </div>
+      {% if form.email.errors %}
+        <p class="help is-danger">
+          {% for error in form.email.errors %}
+            {{ error|lower }}
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
+    <div class="field">
+      <label class="label">{% trans "password" %}</label>
+      <div class="control">
+        {% render_field form.password1 class="input" %}
+      </div>
+      {% if form.password1.errors %}
+        <p class="help is-danger">
+          {% for error in form.password1.errors %}
+            {{ error|lower }}
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
+    <div class="field">
+      <label class="label">{% trans "password again" %}</label>
+      <div class="control">
+        {% render_field form.password2 class="input" %}
+      </div>
+      {% if form.password2.errors %}
+        <p class="help is-danger">
+          {% for error in form.password2.errors %}
+            {{ error|lower }}
+          {% endfor %}
+        </p>
+      {% endif %}
+    </div>
+    <div class="field">
+      <div class="control">
+        <button class="button is-primary is-outlined is-rounded" type="submit" value="enter">{% trans "enter" %}</button>
+      </div>
+    </div>
+  </form>
+{% endblock %}
+
+{% block rightpane %}
+  <p>{% trans "already have an account?" %}</p>
+  <a href="{% url 'user:login' %}" class="primary">{% trans "enter" %}</a>
+{% endblock %}
+
+
+{% block script %}
+  <script>
+    $("#nick").change(function () {
+      var nick = $(this).val();
+      console.log($(this).val());
+
+      $.ajax({
+        url: '/ajax/validate_username',
+        data: {
+          'username': nick
+        },
+        dataType: 'json',
+        success: function (data) {
+          if (data.is_taken) {
+            console.log(data);
+            $("#nick").addClass("is-danger");
+            $("#nick-help").removeClass("is-hidden");
+          } else {
+            $("#nick").removeClass("is-danger");
+            $("#nick-help").addClass("is-hidden");
+          }
+        }
+      });
+    });
+  </script>
+{% endblock %}

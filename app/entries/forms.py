@@ -8,7 +8,7 @@ from .models import Entry
 class EntryForm(forms.ModelForm):
     body = forms.CharField(widget=forms.Textarea(
         attrs={'required': "true", 'cols': "75%", 'rows': "5",
-               "id": "entryarea", "spellcheck": "false"}),
+               "id": "entryarea", "spellcheck": "false", "class": "textarea"}),
         max_length=50000, required=True, label='')
 
     class Meta:

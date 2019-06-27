@@ -7,12 +7,20 @@ class EntryAdmin(admin.ModelAdmin):
     list_display = ['id', '__str__', 'created_at', 'user', 'thread']
     list_display_links = ['id']
     ordering = ['id']
-    list_filter = ['lang', 'deleted_at']
-    search_fields = ['id', 'user__username']
+    list_filter = ['lang']
+    search_fields = ['id', 'user__username', 'thread__title']
     autocomplete_fields = ['thread', 'user']
-    fields = ['thread', 'body', 'user', ('lang', 'deleted_at', 'created_at')]
+    fields = ['thread', 'body', 'user', ('lang', 'created_at')]
     actions = ['hard_delete', 'undo_delete']
     list_per_page = 30
+    save_on_top = True
+
+    def get_fields(self, request, obj=None):
+        fields = super().get_fields(request, obj)
+        if request.user.is_superuser and "first_body" not in fields:
+            fields = ['thread', 'body', ('user', 'lang', 'is_published'),
+                      ('created_at', 'updated_at', 'deleted_at'), 'first_body']
+        return fields
 
     def hard_delete(self, request, queryset):
         if request.user.is_superuser:
@@ -39,9 +47,8 @@ class EntryAdmin(admin.ModelAdmin):
 
     def get_list_filter(self, request):
         list_filter = super().get_list_filter(request)
-        if not request.user.is_superuser:
-            if 'deleted_at' in list_filter:
-                del list_filter[list_filter.index('deleted_at')]
+        if request.user.is_superuser:
+            list_filter = ['lang', 'is_published']
         return list_filter
 
     def get_queryset(self, request):

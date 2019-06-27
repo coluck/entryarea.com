@@ -1,9 +1,9 @@
 .ui-widget-content {
-    z-index: 99;
+    z-index: 999;
     border: none;
     color: #fff;
     background: none;
-    background-color: #222222;
+    background-color: #1D1D1D;
     border-radius: 5px;
     font-size: inherit;
 }

@@ -1,70 +1,37 @@
 import json
 import re
 
+import pytz
 from django.contrib import messages
+from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse
 from django.shortcuts import redirect, render
 from django.urls import reverse
-from django.utils.translation import get_language as lang
 from django.utils.translation import ugettext as _
+from django.utils.translation import get_language as lang
 
-
-from app.threads.models import Thread
-from app.threads.forms import TitleForm, ThreadForm
 from app.entries.forms import EntryForm
+from app.threads.forms import ThreadForm
+from app.threads.models import Thread
 from app.users.models import User
-from .forms import ContactForm
+
+from .forms import ContactForm, ContactMessageForm
+
+NUM = 10
 
 
-from django.core.exceptions import ObjectDoesNotExist
 def search(request):
     if request.is_ajax():
         term = request.GET.get('term', '')
         results = []
 
-        queries = Thread.objects.filter(title__icontains=term, lang=lang())[:15]
-
-        for query in queries:
-            results.append(query.title)
-
-        res = json.dumps(results)
-        mimetype = 'application/json'
-
-        return HttpResponse(res, mimetype)
-
-        # queries = Thread.objects.filter(title__icontains=term, lang=lang()).values()[:15]
-        # lis = list(queries)
-        # return JsonResponse(lis, safe=False)
-
-    else:
-        get = request.GET.get('q')
-        data = get.strip()
-        title = re.sub(' +', ' ', data)
-        try:
-            thread = Thread.objects.get(title=title, lang=lang())
-            return redirect(thread)
-        except Thread.DoesNotExist:  # Don't works
-            print("Works")
-            form = EntryForm()
-            form.fields['body'].widget.attrs['placeholder'] = \
-                "enlight us about " + str(title)
-            return render(request, 'threads/store.html', {'title': str(title), 'form': form})
-            # return redirect("thread:new", title=title)
-
-
-def Search(request):
-    num = 10
-    if request.is_ajax():
-        term = request.GET.get('term', '')
-        results = []
-
         if str(term[0]) == '@':
-            queries = User.objects.filter(username__icontains=term[1:])[:num]
+            queries = User.objects.filter(username__icontains=term[1:])[:NUM]
             for query in queries:
                 results.append("@" + query.username)
         else:
-            queries = Thread.objects.filter(title__icontains=term, lang=lang())[:num]
+            queries = Thread.objects.filter(title__icontains=term, lang=lang())[:NUM]
             for query in queries:
                 results.append(query.title)
 
@@ -79,7 +46,7 @@ def Search(request):
             user = User.objects.get(username=data[1:])
             return redirect(reverse("user:profile", args=[user.username]))
 
-        elif data[0] == '#':
+        elif data[0] == '#' and data[1:].isnumeric():
             return redirect("entry:read", pk=data[1:])
 
         else:
@@ -100,25 +67,50 @@ def Search(request):
                               {'title': title, 'error': True})
 
 
+# def contact_email(request):
+#     if request.method == 'GET':
+#         form = ContactForm()
+#     else:
+#         form = ContactForm(request.POST)
+#         if form.is_valid():
+#             subject = form.cleaned_data['subject']
+#             message = form.cleaned_data['message']
+#             from_email = form.cleaned_data['from_email']
+#             message_with_email = f"From: {from_email} \n" + message
+#             try:
+#                 send_mail(subject, message_with_email, from_email,
+#                           ['gencineer@gmail.com'])
+#             except BadHeaderError:
+#                 return HttpResponse('Invalid header found.')
+#             return redirect('core:success')
+#     return render(request, "app/contact.html", {'form': form})
+
+
 def contact(request):
     if request.method == 'GET':
-        form = ContactForm()
+        sub = request.GET.get("subject", "")
+        # print(type)
+        message = request.GET.get("message", None)
+        # print(message)
+        form = ContactMessageForm(initial={"subject": str(sub),
+                                           "message": message})
     else:
-        form = ContactForm(request.POST)
+        form = ContactMessageForm(request.POST)
         if form.is_valid():
-            subject = form.cleaned_data['subject']
-            message = form.cleaned_data['message']
-            from_email = form.cleaned_data['from_email']
-            message_with_email = f"From: {from_email} \n" + message
-            try:
-                send_mail(subject, message_with_email, from_email,
-                          ['gencineer@gmail.com'])  # TODO: change mail
-            except BadHeaderError:
-                return HttpResponse('Invalid header found.')
-            return redirect('core:success')
+            contact_message = form.save(commit=False)
+            if request.user.is_authenticated:
+                contact_message.user = request.user
+            contact_message.lang = lang()
+            contact_message.save()
+            messages.success(request, _('your message sent successfully'))
+            return redirect("/")
     return render(request, "app/contact.html", {'form': form})
 
 
-def success(request):
-    messages.success(request, _("your message sent successfully"))
-    return redirect('/')
+def set_timezone(request):  # May add user specific timezone
+    if request.method == 'POST':
+        request.session['django_timezone'] = request.POST['timezone']
+        return redirect('/')
+    else:
+        return render(request, 'auth/set-timezone.html',
+                      {'timezones': pytz.common_timezones})

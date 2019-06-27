@@ -1,0 +1,45 @@
+{% extends 'app/base.html' %}{% load i18n %}{% load widget_tweaks %}
+{% block title %}
+  {% trans "contact" %} -
+{% endblock %}
+{% block content %}
+  <p class="title is-3">{% trans "contact us" %}</p>
+  <form method="post">
+    {% csrf_token %}
+    <div class="field">
+      <div class="control">
+        <div class="label">
+          {% trans "email" %}:
+          <div class="help is-pulled-right">
+            {% trans "not required. if you want response." %}
+          </div>
+        </div>
+        {% render_field form.email class="input" %}
+      </div>
+    </div>
+    <br>
+    <div class="field">
+      <div class="control">
+        <div class="label">
+          {% trans "subject" %}:
+        </div>
+        {% render_field form.subject class="input" %}
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <div class="label">
+          {% trans "message" %}:
+        </div>
+        {% render_field form.message class="textarea" %}
+      </div>
+    </div>
+    <div class="field">
+      <div class="control">
+        <button class="button is-primary is-rounded">
+          {% trans "send" %}
+        </button>
+      </div>
+    </div>
+  </form>
+{% endblock %}

@@ -1,0 +1,59 @@
+{% extends "app/base.html" %}{% load i18n %}
+
+{% block title %}
+  {% if entry %}
+    #{{ entry.id }} - {{ entry.thread.title }} -
+  {% else %}
+    {% trans "entry could not found" %} -
+  {% endif %}
+{% endblock %}
+
+{% block content %}
+  {% if entry %}
+    <div name="thread" class="panel">
+      <p class="title is-4">
+        <a href="{{ entry.thread.get_absolute_url }}">{{ entry.thread.title }}</a>
+      </p>
+      <hr>
+      {% if user.is_authenticated %}
+        <form action="{% url "entry:update" entry.id %}" method="POST">
+          {% csrf_token %}
+          <div class="field">
+            <div class="control">
+              <textarea name="body" class="textarea" id="entryarea" rows="5">{{ entry.body }}</textarea>
+            </div>
+          </div>
+          <div class="field">
+            <div class="control">
+              <button type="submit" class="button is-rounded is-primary is-outlined">{% trans "send" %}</button>
+            </div>
+          </div>
+        </form>
+        </div>
+      {% else %}
+        <p class="entry">{% trans "please" %}
+          <a href="{% url 'user:login' %}?next={{ request.path }}" class="primary">{% trans "save" %}</a>
+          {% trans "to write" %}
+        </p>
+      {% endif %}
+  {% endif %}
+{% endblock %}
+
+{% block rightpane %}
+  {% if entry %}
+    <p class="subtitle">{% trans "thread's tags" %}</p>
+    <div class="tags are-medium">
+      {% for tag in entry.thread.tags.all %}
+        <span class="tag is-primary">
+        <a href="{% url "thread:tag-read" tag.slug %}" class="has-text-dark">
+          #{{ tag.label }}
+        </a>
+      </span>
+      {% empty %}
+        <p>
+          {% trans "this thread has not any tag" %}
+        </p>
+      {% endfor %}
+    </div>
+  {% endif %}
+{% endblock %}

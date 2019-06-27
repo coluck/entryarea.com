@@ -12,5 +12,6 @@ urlpatterns = [
 
     path('t/<slug>/entry', views.add_entry, name='create'),
 
-    path('fav/<int:pk>/', views.fav_entry, name='favorite'),
+    # path('fav/<int:pk>/', views.fav_entry, name='favorite'),
+    path('favorite/<int:pk>/', views.favorite_entry, name='favorited'),
 ]

@@ -1,8 +1,9 @@
 import json
+import time
 
 import bleach
 from bleach.sanitizer import ALLOWED_TAGS, ALLOWED_ATTRIBUTES, ALLOWED_STYLES
-from django.contrib import messages
+from django.contrib import messages, auth
 from django.contrib.auth.decorators import login_required
 from django.core.exceptions import ObjectDoesNotExist
 from django.db.models import F, QuerySet
@@ -25,8 +26,8 @@ class EntryRead(generic.DetailView):
 
     def get_object(self, queryset=None):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        queryset = self.get_queryset().annotate(username=F("user__username")) \
-            .select_related("thread")
+        queryset = self.get_queryset().with_favs(self.request.user)\
+            .annotate(username=F("user__username")).select_related("thread")
         try:
             entry = queryset.get(pk=pk)
         except ObjectDoesNotExist:
@@ -36,44 +37,37 @@ class EntryRead(generic.DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['id'] = self.kwargs['pk']
-        context['tags'] = self.get_object().thread.tags.all
+        # context['tags'] = self.get_object().thread.tags.all
         return context
 
 
 class EntryUpdate(generic.UpdateView):
     model = Entry
     template_name = 'entries/update.html'
-    # fields = ['body']
     form_class = EntryForm
 
-    # def form_valid(self, form):
-    #     if form.instance.user_id == self.request.user:
-    #         return super().form_valid(form)
+    def post(self, request, *args, **kwargs):
+        obj = self.get_object()
+        if not obj.updated_at:
+            obj.first_body = obj.body
+            obj.save()
 
-    # def get_queryset(self):
-    #     base_qs = super(EntryUpdate, self).get_queryset()
-    #     print(base_qs.filter(user_id=self.request.user))
-    #     return base_qs.filter(user_id=self.request.user)
+        return super().post(request, *args, **kwargs)
 
     def form_valid(self, form):
         entry = form.save(commit=False)
         entry.body = bleach.clean(entry.body, tags=[])
         entry.updated_at = timezone.now()
         entry.save()
+        messages.success(self.request, message=_("your entry was updated successfully"))
         return redirect('entry:read', pk=entry.pk)
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
         if obj.user != self.request.user:
-            return Http404("you are not allowed to edit this entry")
+            messages.error(request, message=_("what a nice entry isn't it? if is not try to complain."))
+            return redirect(obj.thread)
         return super(EntryUpdate, self).dispatch(request, *args, **kwargs)
-
-    # success_url = '/'
-
-    def get_success_url(self):
-        pk = self.kwargs['pk']
-        # return '/entry/'+str(id)
-        return redirect('entry:read', pk=pk)
 
 
 class EntryDelete(generic.DeleteView):
@@ -124,9 +118,11 @@ def add_entry(request, slug):
         form = EntryForm(request.POST)
         if form.is_valid():
             entry = form.save(commit=False)
+            if "hide" in request.POST:
+                entry.is_published = False
             entry.body = bleach.clean(entry.body, tags=[])
             entry.thread = thread
-            entry.user = request.user  # entry.user = auth.get_user(request)
+            entry.user = request.user  # auth.get_user(request)
             entry.lang = thread.lang   # lang() langs should be same as thread
             entry.created_at = timezone.now()  # removed auto_now_add for adm
             entry.save()
@@ -136,30 +132,19 @@ def add_entry(request, slug):
 
             thread_url = reverse('thread:read', kwargs={'slug': slug})
             url = f'{thread_url}?page=last#{entry.id}'
-            messages.success(request, _('your entry was published'))
+            if entry.is_published:
+                messages.success(request, _('your entry was published'))
+            else:
+                messages.success(request, _('your entry was kept as hidden'))
             return redirect(url)
     return redirect(thread)
 
 
 @login_required
-def fav_entry(request, pk):
-    entry = Entry.objects.get(pk=pk)
-    if request.user not in entry.favs.all():
-        entry.favs.add(request.user)
-    else:
-        entry.favs.remove(request.user)
-
-    return HttpResponse(
-        json.dumps({
-            "cnt": entry.favs.count()
-        })
-    )
-
-
-@login_required
 def favorite_entry(request, pk):
-    favorite, created = Favorite.objects.get_or_create(user=request.user,
-                                                       entry=pk)
+    favorite, created = Favorite.objects\
+        .get_or_create(user=request.user, entry=Entry.objects.get(id=pk))
+    # time.sleep(0.1)
     if not created:
         favorite.delete()
 

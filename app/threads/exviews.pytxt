@@ -1,0 +1,57 @@
+
+
+def index(request):
+    entries = Entry.objects.all().with_favs(request.user).filter(lang=lang()).\
+        annotate(title=F('thread__title'), slug=F('thread__slug'),
+                 username=F('user__username')).order_by("?")[:5]
+    # max_id = Entry.objects.aggregate(max_id=Max("id"))['max_id']
+    # random_list = random.sample([i for i in range(max_id)], 3)
+    # entries = Entry.objects.filter(lang=lang()).filter(id__in=random_list).select_related('thread')[:1]
+    return render(request, 'threads/idx.html', context={'entries': entries})
+
+
+
+
+def new(request, title):
+    if request.method == "GET":
+        try:
+            thread = Thread.objects.get(title=title, lang=lang())
+            return redirect(thread)
+        except Thread.DoesNotExist:
+            data = {"title": title}
+            thread_form = TitleForm(data)
+            if thread_form.is_valid():
+                entry_form = BodyForm()
+                entry_form.fields['body'].widget.attrs['placeholder'] = \
+                    _(f'write about {title}"')
+
+                context = {"tform": thread_form, "eform": entry_form, "title": title}
+                return render(request, "threads/new.html", context=context)
+
+    if request.method == "POST":
+        thread_form = TitleForm(request.POST)
+        entry_form = BodyForm(request.POST)
+        if thread_form.is_valid() and entry_form.is_valid():
+            new_thread = Thread(title=thread_form.cleaned_data['title'],
+                                user=request.user, lang=lang())
+            new_thread.last_entry = timezone.now()
+            new_thread.save()
+
+            add_entry(request, new_thread.slug)
+            messages.success(request, 'and the thread was created')
+            return redirect(new_thread)
+        else:
+            return redirect("/")
+
+
+class ThreadCreate(LoginRequiredMixin, generic.CreateView):
+    model = Thread
+    form_class = ThreadForm
+    template_name = 'threads/create.html'
+
+    def post(self, request, *args, **kwargs):
+        new = Thread(title=request.POST['title'].lower(), user=request.user,
+                     lang=lang())
+        new.save()
+        messages.success(request, _('your thread was published successfully'))
+        return redirect(new)

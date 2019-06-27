@@ -1,0 +1,92 @@
+{% extends 'app/base.html' %}{% load i18n %}
+{% block title %}@{{ user.username }} - {% endblock %}
+
+{% block content %}
+  <div name="thread" class="panel">
+    <p class="title is-2">
+      <a href="#">@ {{ user_profile.username }}</a>
+      <span class="is-size-6 is-pulled-right">
+        {{ user_profile.entries.count }} {% trans "entries" %}
+      </span>
+    </p>
+    <div class="level is-mobile">
+      <div class="level-left">
+        <div class="level-item">
+          <span class="is-size-7">{{ user_profile.date_joined|date:"d.m.Y" }} {% trans "joined" %}</span>
+        </div>
+      </div>
+      {% ifequal user_profile.username request.user.username %}
+        <div class="level-right">
+          <div class="level-item">
+            <div class="level-item">
+              <div class="dropdown is-hoverable is-right">
+                <div class="dropdown-trigger">
+                  <svg class="dots-icon" style="fill: #BDBDBD">
+                    <use xlink:href="#dots-icon"></use>
+                  </svg>
+                </div>
+                <div class="dropdown-menu">
+                  <div class="dropdown-content">
+                    <a href="{% url "user:password_change" %}" class="dropdown-item">
+                      {% trans "change password" %}
+                    </a>
+                    <a href="{% url "core:timezone" %}" class="dropdown-item">
+                      {% trans "set timezone" %}
+                    </a>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      {% endifequal %}
+    </div>
+    <div class="tabs is-boxed">
+      <ul>
+        <li class="is-active">
+          <a>
+            <span>{% trans "entries" %}</span>
+          </a>
+        </li>
+        <li>
+          <a href="{% url "user:favorites" user_profile%}">
+            <span>{% trans "favorites" %}</span>
+          </a>
+        </li>
+        {% ifequal user_profile.username request.user.username %}
+          <li>
+            <a>
+              <span>{% trans "hidden" %}</span>
+            </a>
+          </li>
+        {% endifequal %}
+      </ul>
+    </div>
+    <div class="level is-mobile">
+      <div class="level-left">
+        <p class="subtitle is-4">{% trans "entries" %}</p>
+      </div>
+      <div class="level-right">
+        {% include "partial/pagination.html" %}
+      </div>
+    </div>
+  </div>
+
+  {% for entry in entries %}
+    <div name="thread" class="panel">
+      <p class="title is-4">
+        <a href="{% url "thread:read" entry.slug %}">
+          {{ entry.title }}
+        </a>
+      </p>
+    </div>
+    <div name="body">
+      {% include "app/entry.html" %}
+    </div>
+    <br><br>
+  {% endfor %}
+{% endblock %}
+
+{% block rightpane %}
+
+{% endblock %}

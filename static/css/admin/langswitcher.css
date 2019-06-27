@@ -4,7 +4,7 @@
   bottom: 15px;
   margin: 0;
   padding: 0;
-  z-index: 1;
+  z-index: 99999;
   pointer-events: none;
   list-style: none;
 }

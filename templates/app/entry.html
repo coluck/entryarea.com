@@ -1,0 +1,84 @@
+<div class="entry">{% load i18n %}
+  <div id="{{ entry.id }}" class="pointer"></div>
+  <div class="entry-content">
+    {% autoescape off %}
+      {{ entry.get_body | linebreaks | lower }}
+    {% endautoescape %}
+  </div>
+  <div class="level is-mobile">
+    <div class="level-left">
+      <div class="level-item">
+        <span class="is-size-7" style="margin-right: 10px">
+          <a href="{% url "entry:read" entry.id %}">#{{ entry.id }}</a>
+        </span>
+        <a class="favorite {{ entry.is_faved }}" data-count="{{ entry.fav_cnt }}"
+           data-action="fav" data-id="{{ entry.id }}">
+          <svg class="fav-icon">
+            <use xlink:href="#fav-icon"></use>
+          </svg>
+        </a>
+        <span class="is-size-7 fav-cnt" style="margin-left: 5px">
+          {% ifnotequal entry.fav_cnt 0 %}
+            <a href="#">{{ entry.fav_cnt }}</a>
+          {% endifnotequal %}
+        </span>
+      </div>
+    </div>
+    <div class="">
+      <div class="level is-mobile" style="flex-wrap: wrap">
+        <div class="level-left is-marginless">
+          <div class="level-item">
+{#            {% load tz %}#}
+{#            {% timezone "Europe/" %}#}
+{#              Paris time: {{ entry.created_at|date:"d.m.Y H:i" }}#}
+{#              {{ entry.created_at|date:"U" }} -- {{ entry.created_at }}#}
+{#            {% endtimezone %}#}
+            <span class="is-size-7">
+              <a href="{% url "entry:read" entry.id %}">{% load tz %}
+              {% localtime on %}
+                {{ entry.created_at|date:"d.m.Y H:i" }}
+                {% if entry.updated_at %}
+                  {% if entry.created_at|date:"d.m.Y" == entry.updated_at|date:"d.m.Y" %}
+                    ~ {{ entry.updated_at|date:"H:i" }}
+                  {% elif entry.created_at|date:"Y" == entry.updated_at|date:"Y" %}
+                    ~ {{ entry.updated_at|date:"d.m H:i" }}
+                  {% else %}
+                    {{ entry.updated_at|date:"d.m.Y H:i" }}
+                  {% endif %}
+                {% endif %}
+              {% endlocaltime %}
+              </a>
+            </span>
+          </div>
+        </div>
+        <div class="level-right">
+          <div class="level-item">
+            <a href="{% url "user:profile" entry.username %}" class="nick">{{ entry.username }}</a>
+            <div class="dropdown is-hoverable is-right">
+              <div class="dropdown-menu" id="dropdown-menu" role="menu">
+                <div class="dropdown-content">
+                  {% if request.user.is_staff %}
+                    <a href="{% url "admin:index" %}entries/entry/{{ entry.id }}"
+                       class="dropdown-item">{% trans "edit on admin" %}</a>
+                  {% endif %}
+                  {% ifequal request.user.username entry.username %}
+                    <a href="{% url "entry:delete" entry.id %}" class="dropdown-item">{% trans "delete" %}</a>
+                    <a href="{% url "entry:update" entry.id %}" class="dropdown-item">{% trans "edit" %}</a>
+                  {% else %}
+                    <a href="{% url "core:contact" %}?subject={% trans "complain" %} entry %23{{ entry.id }}"
+                       class="dropdown-item">{% trans "complain" %}</a>
+                  {% endifequal %}
+                </div>
+              </div>
+              <div class="dropdown-trigger">
+                <svg class="dots-icon">
+                  <use xlink:href="#dots-icon"></use>
+                </svg>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

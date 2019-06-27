@@ -1,0 +1,29 @@
+{% extends "app/base.html" %} {% load i18n %}
+
+{% block title %}
+  {% trans "threads" %} -
+{% endblock %}
+{% block content %}
+  <p class="title">{% trans "threads" %}</p>
+  <div class="level is-mobile">
+    <div class="level-right">
+      <div class="level-item">
+        {% include "partial/pagination.html" %}
+      </div>
+    </div>
+  </div>
+  <div class="menu-list">
+    <ul>
+    {% for thread in threads %}
+      <li>
+        <a href="{% url "thread:read" thread.slug %}">
+          {{ thread.title }}
+          <span class="is-pulled-right is-size-8">
+            {{ thread.ecnt }}
+          </span>
+        </a>
+      </li>
+    {% endfor %}
+    </ul>
+  </div>
+{% endblock %}

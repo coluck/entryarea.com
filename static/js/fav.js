@@ -7,7 +7,8 @@ function fav() {
         type : 'Get',
         success : function (json) {
             like.find("[data-count='fav']").text(json.cnt);
-            like.find(".heart fa fa-heart-o")
+            // like.find(".heart fa fa-heart-o");
+            like.addClass('heart fa fa-heart');
         }
     });
 

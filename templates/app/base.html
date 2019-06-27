@@ -1,0 +1,51 @@
+{% spaceless %}
+<!DOCTYPE html>{% load static %}{% load i18n %}{% get_current_language as LANGUAGE %}
+<html lang="{{ LANGUAGE }}">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#f7a31c">
+{#  {% include "partial/favicon.html" %}#}
+
+  <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
+  <link rel="stylesheet" href="{% static "css/jquery-ui.min.css" %}">
+  <link rel="stylesheet" href="{% static "css/bulma.css" %}">
+{#  <link rel="stylesheet" href="{% static "css/styles.css" %}">#}
+  <link rel="stylesheet" href="{% static "css/last2.css" %}">
+  <link rel="stylesheet" href="{% static "css/autocomplete.css" %}">
+  {% block title_wrapper %}<title>{% block title %}{% endblock %}entry area</title>{% endblock %}
+</head>
+<body>
+<svg xmlns="http://www.w3.org/2000/svg" style="display: none;">
+  {% include "partial/svg.html" %}
+</svg>
+<header>
+  {% include "partial/header.html" %}
+</header>
+<div class="main main-content">
+  <section class="columns">
+    <aside id="lefting" class="column is-3 is-narrow-mobile is-hidden-mobile">
+      {% include "app/leftpane.html" %}
+    </aside>
+    <div class="column is-6 is-12-mobile p-20">
+      {% block content %}{% endblock %}
+    </div>
+    <aside class="column is-3 p-20">
+      {% block rightpane %}{% endblock %}
+    </aside>
+  </section>
+  <footer class="footer column is-offset-3">
+    {% include "app/footer.html" %}
+  </footer>
+</div>
+<div name="fix-com">
+  {% include "partial/lang-switcher.html" %}
+  {% include "partial/message.html" %}
+</div>
+<script src="{% static "js/jquery.js" %}"></script>
+<script src="{% static "js/jquery-ui.js" %}"></script>
+<script src="{% static "js/base.js" %}"></script>
+{% block script %}{% endblock %}
+</body>
+</html>
+{% endspaceless %}

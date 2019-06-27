@@ -1,0 +1,28 @@
+{% extends 'app/base.html' %}{% load i18n %}
+{% block title %}{{ title }} - {% endblock %}
+{% block content %}
+  <div name="thread" class="panel">
+    <p class="title is-4">
+      <a href="#">{{ title }}</a>
+    </p>
+    {% if error %}
+    <div class="message is-danger is-small">
+      <div class="message-header">
+        <strong>{% trans "warning!" %}</strong>
+      </div>
+      <div class="message-body">
+        {% trans "this title is invalid." %}
+        <a href="{% url "thread:new" %}" class="primary">{% trans "why?" %}</a>
+      </div>
+    </div>
+    {% else %}
+      <div class="entry-area">
+        {% trans "thread does not exist." %}
+        {% trans "if you want to create this thread be sure it obeys the" %}
+        <a href="{% url "thread:new" %}" class="primary">{% trans "rules" %}</a>
+        <hr>
+        {% include 'app/entryarea.html' %}
+      </div>
+    {% endif %}
+  </div>
+{% endblock %}

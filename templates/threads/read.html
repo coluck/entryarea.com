@@ -1,0 +1,87 @@
+{% extends "app/base.html" %}{% load i18n %}{% get_current_language as LANGUAGE %}
+{% block title %}
+  {{ thread.title }} -
+{% endblock %}
+{% block content %}
+  <div name="thread" class="panel">
+    <p class="title is-4">
+      <a href="{{ thread.get_absolute_url }}">{{ thread.title }}</a>
+    </p>
+    <div class="level is-mobile">
+      <div class="level-left">
+        <div class="level-item">
+          <span class="is-size-7">{{ thread.views }} {% trans "viewed" %}</span>
+        </div>
+      </div>
+      <div class="level-right">
+        <div class="level-item">
+          {% include "partial/pagination.html" %}
+        </div>
+      </div>
+    </div>
+    {% if LANGUAGE != thread.lang %}
+      <div class="message is-primary is-small">
+        <div class="message-body">
+          <strong>{% trans "warning!" %}</strong>
+          {% trans "the language of this thread is" %}
+          <strong>
+            {% trans thread.lang %}
+          </strong>
+        </div>
+      </div>
+    {% endif %}
+  </div>
+
+  <div name="body">
+    <hr class="is-marginless">
+    {% for entry in entries %}
+      {% include "app/entry.html" %}
+    {% empty %}
+      {{ thread.user }} created this thread but now no entries available
+    {% endfor %}
+  </div>
+
+  <div name="entryarea" style="margin: 50px 0">
+    {% include "app/entryarea.html" %}
+  </div>
+{% endblock content %}
+
+{% block rightpane %}
+  {% with tags=thread.tags.all %}
+    {% if user.is_staff %}
+      <a href="{% url "admin:index" %}threads/thread/{{ thread.id }}" class="primary">
+        {% trans "edit on admin" %}
+      </a>
+    {% endif %}
+    {% if tags %}
+      <p class="subtitle">{% trans "thread's tags" %}</p>
+      <div class="tags are-medium">
+        {% for tag in tags %}
+          <a href="{% url "thread:tag-read" tag.slug %}" class="has-text-dark tag is-primary ">
+            #{{ tag.label }}
+          </a>
+        {% endfor %}
+      </div>
+    {% else %}
+      <p>
+        {% trans "this thread has not any tag" %}
+      </p>
+    {% endif %}
+    <a href="{% url "core:contact" %}?subject={% trans "thread tag advice" %}: %23{{ thread.id }}" class="primary">
+      {% trans "give a tag advice" %}
+    </a>
+  {% endwith %}
+{% endblock rightpane %}
+
+{% block script %}
+  <script>
+    $(document).ready(function () {
+      $(":submit").one('click', function (e) {
+        {#$(this).prop('disabled', true);#}
+      });
+      $("#entryarea").keyup(function () {
+        $(":submit").removeAttr("disabled");
+      });
+    });
+  </script>
+{% endblock %}

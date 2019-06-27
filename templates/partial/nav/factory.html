@@ -1,0 +1,23 @@
+{#{% spaceless %}#}
+{% load i18n %}
+{% for tag in tags %}{% if forloop.counter < 7 %}
+  <div class="level-item">
+    <a href="{% url "thread:tag-read" tag.slug %}" title="{{ tag.descr }}" class="taq">#{{ tag.label }}</a>
+  </div>{% endif %}{% endfor %}
+<div class="level-item">
+  <div class="dropdown is-hoverable is-right">
+    <div class="dropdown-trigger">
+      <svg class="dots-icon" style="fill: #BDBDBD">
+        <use xlink:href="#dots-icon"></use>
+      </svg>
+    </div>
+    <div class="dropdown-menu">
+      <div class="dropdown-content">{% for tag in tags %}{% if forloop.counter > 6 %}
+        <a href="{% url "thread:tag-read" tag.slug %}" class="dropdown-item taq"
+           title="{{ tag.descr }}">#{{ tag.label }}</a>{% endif %}{% endfor %}
+        <a href="{% url "thread:tags" %}">{% trans "tags" %}</a>
+      </div>
+    </div>
+  </div>
+</div>
+{#{% endspaceless %}#}

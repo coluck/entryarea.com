@@ -1,0 +1,11 @@
+{% if messages %}
+  <div id="mesaj">
+    <div class="message is-primary">
+      <div class="message-body">
+        {% for message in messages %}
+          {{ message }}
+        {% endfor %}
+      </div>
+    </div>
+  </div>
+{% endif %}
