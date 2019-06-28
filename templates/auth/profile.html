@@ -1,5 +1,5 @@
 {% extends 'app/base.html' %}{% load i18n %}
-{% block title %}@{{ user.username }} - {% endblock %}
+{% block title %}@ {{ user_profile.username }} - {% endblock %}
 
 {% block content %}
   <div name="thread" class="panel">
@@ -41,11 +41,12 @@
         </div>
       {% endifequal %}
     </div>
+  {% block tabs %}
     <div class="tabs is-boxed">
       <ul>
         <li class="is-active">
           <a>
-            <span>{% trans "entries" %}</span>
+            <span>{{ title }}</span>
           </a>
         </li>
         <li>
@@ -55,13 +56,14 @@
         </li>
         {% ifequal user_profile.username request.user.username %}
           <li>
-            <a>
+            <a href="{#  {% url "user:hidden" user_profile %} #}">
               <span>{% trans "hidden" %}</span>
             </a>
           </li>
         {% endifequal %}
       </ul>
     </div>
+    {% endblock tabs %}
     <div class="level is-mobile">
       <div class="level-left">
         <p class="subtitle is-4">{% trans "entries" %}</p>

@@ -3,7 +3,7 @@ from django.contrib.auth import login
 from django.contrib.auth.views import LoginView, PasswordChangeView, PasswordChangeDoneView, PasswordResetView, \
     PasswordResetConfirmView, PasswordResetDoneView
 from django.db.models import F
-from django.http import JsonResponse, HttpResponse
+from django.http import JsonResponse, HttpResponse, Http404
 from django.urls import reverse, reverse_lazy
 from django.utils.translation import get_language as lang
 from django.utils.translation import ugettext as _
@@ -92,34 +92,56 @@ def profile(request, username):
 class Profile(generic.ListView):
     model = Entry
     context_object_name = 'entries'
+    title = _("entries")
     template_name = 'auth/profile.html'
     paginate_by = 15
     paginate_orphans = 3
 
-    def get_queryset(self, **kwargs):
+    def dispatch(self, request, *args, **kwargs):
         self.user = User.objects.\
             filter(username__exact=self.kwargs.get('username')).\
             only('username')[0]
+        return super().dispatch(request, *args, **kwargs)
+
+    def get_queryset(self, **kwargs):
 
         queryset = super().get_queryset().with_favs(self.request.user)\
             .filter(user=self.user).filter(lang=lang())\
             .annotate(title=F('thread__title'),
                       slug=F('thread__slug'),
-                      username=F('user__username'))
+                      username=F('user__username')).order_by("-created_at")
         return queryset
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
 
         context['user_profile'] = self.user
+        context['title'] = self.title
         # context['tags'] = self.user.entries.
         return context
 
 
 class Favorites(Profile):
     template_name = "auth/favorites.html"
+    title = _("favorites")
 
     def get_queryset(self, **kwargs):
-        queryset = Entry.objects.all()
-        # queryset = super().get_queryset()
+        queryset = Entry.objects.get_queryset().with_favs(self.user).\
+            filter(favorites__user=self.user).\
+            annotate(title=F('thread__title'),
+                      slug=F('thread__slug'),
+                      username=F('user__username')).order_by("-created_at")
         return queryset
+
+
+class Hidden(Profile):
+    template_name = "auth/hidden.html"
+
+    def get_queryset(self, **kwargs):
+        if self.user != self.request.user:
+            raise Http404()
+        qs = Entry.objects.hidden().filter(user=self.user). \
+            annotate(title=F('thread__title'),
+                     slug=F('thread__slug'),
+                     username=F('user__username')).order_by("-created_at")
+        return qs

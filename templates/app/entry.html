@@ -1,4 +1,4 @@
-<div class="entry">{% load i18n %}
+<div class="entry">{% load i18n %}{% load tz %}
   <div id="{{ entry.id }}" class="pointer"></div>
   <div class="entry-content">
     {% autoescape off %}
@@ -28,26 +28,19 @@
       <div class="level is-mobile" style="flex-wrap: wrap">
         <div class="level-left is-marginless">
           <div class="level-item">
-{#            {% load tz %}#}
-{#            {% timezone "Europe/" %}#}
-{#              Paris time: {{ entry.created_at|date:"d.m.Y H:i" }}#}
-{#              {{ entry.created_at|date:"U" }} -- {{ entry.created_at }}#}
-{#            {% endtimezone %}#}
-            <span class="is-size-7">
-              <a href="{% url "entry:read" entry.id %}">{% load tz %}
-              {% localtime on %}
-                {{ entry.created_at|date:"d.m.Y H:i" }}
+            <span class="is-size-7">{% localtime on %}
+                <a href="{% url "entry:read" entry.id %}">{% spaceless %}
+                {{ entry.created_at|date:"d.m.Y · H:i" }}
                 {% if entry.updated_at %}
                   {% if entry.created_at|date:"d.m.Y" == entry.updated_at|date:"d.m.Y" %}
                     ~ {{ entry.updated_at|date:"H:i" }}
                   {% elif entry.created_at|date:"Y" == entry.updated_at|date:"Y" %}
-                    ~ {{ entry.updated_at|date:"d.m H:i" }}
+                    ~ {{ entry.updated_at|date:"d.m · H:i" }}
                   {% else %}
-                    {{ entry.updated_at|date:"d.m.Y H:i" }}
+                    {{ entry.updated_at|date:"d.m.Y · H:i" }}
                   {% endif %}
-                {% endif %}
-              {% endlocaltime %}
-              </a>
+                {% endif %}{% endspaceless %}
+              </a>{% endlocaltime %}
             </span>
           </div>
         </div>

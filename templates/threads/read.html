@@ -76,11 +76,14 @@
 {% block script %}
   <script>
     $(document).ready(function () {
-      $(":submit").one('click', function (e) {
-        {#$(this).prop('disabled', true);#}
-      });
-      $("#entryarea").keyup(function () {
-        $(":submit").removeAttr("disabled");
+      $("#ea").on("submit", function (e) {
+        var $form = $(this);
+        if ($form.data('submitted') === true) {
+          e.preventDefault();
+        } else {
+          $form.data('submitted', true);
+        }
+        return this;
       });
     });
   </script>

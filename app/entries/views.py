@@ -59,8 +59,12 @@ class EntryUpdate(generic.UpdateView):
         entry.body = bleach.clean(entry.body, tags=[])
         entry.updated_at = timezone.now()
         entry.save()
-        messages.success(self.request, message=_("your entry was updated successfully"))
-        return redirect('entry:read', pk=entry.pk)
+        if entry.is_published:
+            messages.success(self.request, message=_("your entry was updated successfully"))
+            return redirect('entry:read', pk=entry.pk)
+        else:
+            return redirect(reverse("user:hidden", self.request.user))
+
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -68,6 +72,12 @@ class EntryUpdate(generic.UpdateView):
             messages.error(request, message=_("what a nice entry isn't it? if is not try to complain."))
             return redirect(obj.thread)
         return super(EntryUpdate, self).dispatch(request, *args, **kwargs)
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get(self.pk_url_kwarg)
+        qs = Entry.objects.hid_pub()
+        obj = qs.get(pk=pk)
+        return obj
 
 
 class EntryDelete(generic.DeleteView):
@@ -89,7 +99,9 @@ class EntryDelete(generic.DeleteView):
 
     def dispatch(self, request, *args, **kwargs):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        queryset = self.get_queryset().annotate(username=F("user__username")) \
+        # queryset = self.get_queryset().annotate(username=F("user__username")) \
+        #     .select_related('thread')
+        queryset = Entry.objects.hid_pub().annotate(username=F("user__username"))\
             .select_related('thread')
         try:
             self.entry = queryset.get(id=pk)

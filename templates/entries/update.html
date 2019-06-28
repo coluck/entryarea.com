@@ -16,7 +16,7 @@
       </p>
       <hr>
       {% if user.is_authenticated %}
-        <form action="{% url "entry:update" entry.id %}" method="POST">
+        <form action="{% url "entry:update" entry.id %}" method="POST" id="ea">
           {% csrf_token %}
           <div class="field">
             <div class="control">

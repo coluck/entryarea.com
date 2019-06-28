@@ -9,9 +9,6 @@ from django.utils.translation import get_language as lang
 from app.threads.models import Tag, Thread
 
 
-cnt = Count("entries", filter=Q(entries__deleted_at=None) & Q(entries__is_published=True))
-
-
 def api(queries):
     results = {}
     lis = []
@@ -32,6 +29,9 @@ def api_tag(slug, *args, **kwargs):
     # print(args)       ((), {'slug': 'music'}) # slug parameter is useless
     # print(kwargs)     {}
     tag = get_object_or_404(Tag, slug=slug)
+    cnt = Count("entries",
+                filter=Q(entries__deleted_at=None) & Q(entries__is_published=True),
+                distinct=True)
     # queries = tag.threads.annotate(cnt=Count('entries')).only("title", "slug") \
     queries = tag.threads.annotate(cnt=cnt).only("title", "slug") \
         .order_by("last_entry")
@@ -41,15 +41,19 @@ def api_tag(slug, *args, **kwargs):
 def api_thread(request, *args, **kwargs):
     if request.GET.get("week", None):
         cnt = Count("entries",
-                    # filter=Q(entries__created_at__startswith=dt.date.today())
-                    filter=Q(entries__created_at__gt=dt.date.today()
-                             - dt.timedelta(days=7)), distinct=True)
+                    filter=Q(entries__created_at__gt=dt.date.today()-dt.timedelta(days=7))&
+                           Q(entries__deleted_at=None) &
+                           Q(entries__is_published=True)
+                    , distinct=True)
         queries = Thread.objects.filter(lang=lang()) \
-                        .annotate(cnt=cnt).filter(cnt__gt=0) \
-                        .order_by("-last_entry").only('title', 'slug')[:20]
+                      .annotate(cnt=cnt).filter(cnt__gt=0) \
+                      .order_by("-last_entry").only('title', 'slug')[:20]
     else:
+        cnt = Count("entries",
+                    filter=Q(entries__deleted_at=None) & Q(entries__is_published=True),
+                    distinct=True)
         queries = Thread.objects.filter(lang=lang()) \
-                      .annotate(cnt=Count("entries")) \
+                      .annotate(cnt=cnt) \
                       .order_by("-cnt").only('title', 'slug')[:20]
     return api(queries)
 

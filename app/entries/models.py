@@ -30,6 +30,7 @@ class Entry(SoftDeletionModel):
     updated_at = models.DateTimeField(blank=True, null=True)
 
     objects = EntryManager()
+    # hidden = HiddenManager()
 
     class Meta:
         verbose_name_plural = 'entries'

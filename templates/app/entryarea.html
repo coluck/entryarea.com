@@ -5,7 +5,7 @@
         {% url "entry:create" thread.slug %}
       {% else %}
         {% url "thread:new" %}
-      {% endif %}" method="post">{% csrf_token %}
+      {% endif %}" method="post" id="ea">{% csrf_token %}
       <div class="field">
         <div class="control">
           {% if not thread %}

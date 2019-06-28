@@ -3,7 +3,6 @@ from django.db.models import Count, Q, OuterRef, Exists
 from django.utils.functional import SimpleLazyObject
 
 from app.core.models import SoftDeletionManager, SoftDeletionQuerySet
-# from . models import Favorite
 
 
 class EntryQuerySet(SoftDeletionQuerySet):
@@ -25,6 +24,15 @@ class EntryManager(SoftDeletionManager):
         return EntryQuerySet(self.model).filter(deleted_at=None)\
             .filter(is_published=True).defer("deleted_at", "first_body", "is_published")
 
+    def hidden(self):
+        qs = super().get_queryset()
+        return qs.filter(is_published=False).defer("deleted_at", "first_body")
+
+    def hid_pub(self):
+        return EntryQuerySet(self.model).filter(deleted_at=None)\
+            .defer("deleted_at", "first_body")
+
+    '''
     def fav_qs(self, user=None):
         qs = super().get_queryset()
         from app.entries.models import Favorite
@@ -34,3 +42,11 @@ class EntryManager(SoftDeletionManager):
         )
         return qs.annotate(fav_cnt=Count("favorites")) \
                  .annotate(is_faved=Exists(is_fav))
+    '''
+
+
+'''
+class HiddenManager(SoftDeletionManager):
+    def get_queryset(self):
+        pass
+'''
