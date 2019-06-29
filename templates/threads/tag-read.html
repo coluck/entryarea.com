@@ -1,5 +1,5 @@
 {% extends 'app/base.html' %}{% load i18n %}
-{% block title %}#{{ tag.label }} - {% trans "tag" %} - {% endblock %}
+{% block title %}#{{ tag.label }} - {% endblock %}
 {% block content %}
   <p class="title is-4">#{{ tag.label }}</p>
   <p class="">{{ tag.descr }}</p>
@@ -24,4 +24,11 @@
       {% endfor %}
     </ul>
   </div>
+{% endblock %}
+{% block rightpane %}
+  {% if user.is_staff %}
+    <a href="{% url "admin:index" %}threads/tag/{{ tag.id }}" class="primary">
+      {% trans "edit on admin" %}
+    </a>
+  {% endif %}
 {% endblock %}

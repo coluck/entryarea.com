@@ -17,7 +17,6 @@ urlpatterns = [
          name='validate_username'),
     path('@<username>/', views.Profile.as_view(), name='profile'),
     path('@<username>/favorites/', views.Favorites.as_view(), name='favorites'),
-    path('@<username>/hidden/', views.Hidden.as_view(), name='hidden'),
 
     path('change-pass/', views.PasswordChange.as_view(), name='password_change'),
     # path('password_change/done/', views.PasswordChangeDone.as_view(), name='password_change_done'),

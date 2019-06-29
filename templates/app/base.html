@@ -1,18 +1,20 @@
-{% spaceless %}
 <!DOCTYPE html>{% load static %}{% load i18n %}{% get_current_language as LANGUAGE %}
 <html lang="{{ LANGUAGE }}">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <meta name="theme-color" content="#f7a31c">
-{#  {% include "partial/favicon.html" %}#}
+  <meta name="description" content="entry area - eager society">
+  <meta name="theme-color" content="#222222">
+  <link rel="canonical" href="https://en.entryarea.com/"/>
+
+  <link rel="apple-touch-icon" sizes="180x180" href="{% static "img/favi/apple-touch-icon.png" %}">
+  <link rel="icon" type="image/png" sizes="32x32" href="{% static "img/favi/favicon-32x32.png" %}">
+  <link rel="icon" type="image/png" sizes="16x16" href="{% static "img/favi/favicon-16x16.png" %}">
+  <link rel="manifest" href="{% static "img/favi/site.webmanifest" %}">
 
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
-  <link rel="stylesheet" href="{% static "css/jquery-ui.min.css" %}">
-  <link rel="stylesheet" href="{% static "css/bulma.css" %}">
-{#  <link rel="stylesheet" href="{% static "css/styles.css" %}">#}
-  <link rel="stylesheet" href="{% static "css/last2.css" %}">
-  <link rel="stylesheet" href="{% static "css/autocomplete.css" %}">
+  <link rel="stylesheet" href="{% static "css/style.css" %}">
+{#  <link disabled id="site-light" rel="stylesheet" href="{% static "/css/style-light.css" %}">#}
   {% block title_wrapper %}<title>{% block title %}{% endblock %}entry area</title>{% endblock %}
 </head>
 <body>
@@ -42,10 +44,21 @@
   {% include "partial/lang-switcher.html" %}
   {% include "partial/message.html" %}
 </div>
-<script src="{% static "js/jquery.js" %}"></script>
-<script src="{% static "js/jquery-ui.js" %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
+        integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"
+        integrity="sha256-T0Vest3yCU7pafRw9r+settMBX6JkKN06dqBnpQ8d30=" crossorigin="anonymous"></script>
+{#<script src="{% static "js/jquery.js" %}"></script>#}
+{#<script src="{% static "js/jquery-ui.js" %}"></script>#}
+<script src="{% static "js/readmore.min.js" %}"></script>
+<script>
+  $(".entry-content").readmore({
+    moreLink: '<a href="#"><b>{% trans "read more..." %}</b></a>',
+    lessLink: '',
+    collapsedHeight: 198
+  });
+</script>
 <script src="{% static "js/base.js" %}"></script>
 {% block script %}{% endblock %}
 </body>
 </html>
-{% endspaceless %}

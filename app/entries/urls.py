@@ -11,7 +11,5 @@ urlpatterns = [
     path('delete/<int:pk>/', views.EntryDelete.as_view(), name='delete'),
 
     path('t/<slug>/entry', views.add_entry, name='create'),
-
-    path('publish/<int:pk>', views.publish_entry, name='publish'),
     path('favorite/<int:pk>/', views.favorite_entry, name='favorite'),
 ]

@@ -59,12 +59,8 @@ class EntryUpdate(generic.UpdateView):
         entry.body = bleach.clean(entry.body, tags=[])
         entry.updated_at = timezone.now()
         entry.save()
-        if entry.is_published:
-            messages.success(self.request, message=_("your entry was updated successfully"))
-            return redirect('entry:read', pk=entry.pk)
-        else:
-            return redirect(reverse("user:hidden", self.request.user))
-
+        messages.success(self.request, message=_("your entry was updated successfully"))
+        return redirect('entry:read', pk=entry.pk)
 
     def dispatch(self, request, *args, **kwargs):
         obj = self.get_object()
@@ -73,12 +69,6 @@ class EntryUpdate(generic.UpdateView):
             return redirect(obj.thread)
         return super(EntryUpdate, self).dispatch(request, *args, **kwargs)
 
-    def get_object(self, queryset=None):
-        pk = self.kwargs.get(self.pk_url_kwarg)
-        qs = Entry.objects.hid_pub()
-        obj = qs.get(pk=pk)
-        return obj
-
 
 class EntryDelete(generic.DeleteView):
     model = Entry
@@ -86,22 +76,12 @@ class EntryDelete(generic.DeleteView):
     template_name = 'entries/confirm_delete.html'
     success_url = '/'
 
-    '''
-    def get_success_url(self):
-        entry = super(EntryDelete, self).get_object()
-        thread = entry.thread
-        redirect(thread)
-    
-    '''
-
     def get_object(self, queryset=None):
         return self.entry
 
     def dispatch(self, request, *args, **kwargs):
         pk = self.kwargs.get(self.pk_url_kwarg)
-        # queryset = self.get_queryset().annotate(username=F("user__username")) \
-        #     .select_related('thread')
-        queryset = Entry.objects.hid_pub().annotate(username=F("user__username"))\
+        queryset = self.get_queryset().annotate(username=F("user__username")) \
             .select_related('thread')
         try:
             self.entry = queryset.get(id=pk)
@@ -130,8 +110,6 @@ def add_entry(request, slug):
         form = EntryForm(request.POST)
         if form.is_valid():
             entry = form.save(commit=False)
-            if "hide" in request.POST:
-                entry.is_published = False
             entry.body = bleach.clean(entry.body, tags=[])
             entry.thread = thread
             entry.user = request.user  # auth.get_user(request)
@@ -144,10 +122,7 @@ def add_entry(request, slug):
 
             thread_url = reverse('thread:read', kwargs={'slug': slug})
             url = f'{thread_url}?page=last#{entry.id}'
-            if entry.is_published:
-                messages.success(request, _('your entry was published'))
-            else:
-                messages.success(request, _('your entry was kept as hidden'))
+            messages.success(request, _('your entry was published'))
             return redirect(url)
     return redirect(thread)
 

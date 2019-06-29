@@ -37,7 +37,7 @@
     {% for entry in entries %}
       {% include "app/entry.html" %}
     {% empty %}
-      {{ thread.user }} created this thread but now no entries available
+      {% trans "no entry available" %}
     {% endfor %}
   </div>
 

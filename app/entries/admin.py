@@ -18,7 +18,7 @@ class EntryAdmin(admin.ModelAdmin):
     def get_fields(self, request, obj=None):
         fields = super().get_fields(request, obj)
         if request.user.is_superuser and "first_body" not in fields:
-            fields = ['thread', 'body', ('user', 'lang', 'is_published'),
+            fields = ['thread', 'body', ('user', 'lang'),
                       ('created_at', 'updated_at', 'deleted_at'), 'first_body']
         return fields
 
@@ -48,7 +48,7 @@ class EntryAdmin(admin.ModelAdmin):
     def get_list_filter(self, request):
         list_filter = super().get_list_filter(request)
         if request.user.is_superuser:
-            list_filter = ['lang', 'is_published']
+            list_filter = ['lang']
         return list_filter
 
     def get_queryset(self, request):

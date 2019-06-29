@@ -1,11 +1,11 @@
 {% if user.is_authenticated %}{% load i18n %}
   {% if not thread.is_closed %}
-    <form action="
+    <form action="{% spaceless %}
       {% if thread %}
         {% url "entry:create" thread.slug %}
       {% else %}
         {% url "thread:new" %}
-      {% endif %}" method="post" id="ea">{% csrf_token %}
+      {% endif %}{% endspaceless %}" method="post" id="ea">{% csrf_token %}
       <div class="field">
         <div class="control">
           {% if not thread %}
@@ -19,7 +19,6 @@
       <div class="field">
         <div class="control">
           <button name="save" class="button is-primary is-outlined is-rounded" type="submit">{% trans "send" %}</button>
-          <button name="hide" class="button is-link is-outlined is-rounded is-pulled-right" type="submit">{% trans "hide" %}</button>
         </div>
       </div>
     </form>
@@ -31,5 +30,4 @@
     <a href="{% url 'user:login' %}?next={{ request.path }}" class="primary">{% trans "enter" %}</a>
     {% trans "to write" %}
   </p>
-  {#  TODO: convert to blocktrans #}
 {% endif %}

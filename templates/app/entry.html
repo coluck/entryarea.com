@@ -12,7 +12,7 @@
           <a href="{% url "entry:read" entry.id %}">#{{ entry.id }}</a>
         </span>
         <a class="favorite {{ entry.is_faved }}" data-count="{{ entry.fav_cnt }}"
-           data-action="fav" data-id="{{ entry.id }}">
+           {% if user.is_authenticated %}data-action="fav"{% endif %} data-id="{{ entry.id }}">
           <svg class="fav-icon">
             <use xlink:href="#fav-icon"></use>
           </svg>
@@ -29,7 +29,7 @@
         <div class="level-left is-marginless">
           <div class="level-item">
             <span class="is-size-7">{% localtime on %}
-                <a href="{% url "entry:read" entry.id %}">{% spaceless %}
+              <a href="{% url "entry:read" entry.id %}">{% spaceless %}
                 {{ entry.created_at|date:"d.m.Y · H:i" }}
                 {% if entry.updated_at %}
                   {% if entry.created_at|date:"d.m.Y" == entry.updated_at|date:"d.m.Y" %}

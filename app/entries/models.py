@@ -25,12 +25,10 @@ class Entry(SoftDeletionModel):
                              related_name='entries')
     thread = models.ForeignKey(Thread, on_delete=models.CASCADE,
                                related_name='entries')
-    is_published = models.BooleanField(default=True)
     created_at = models.DateTimeField()
     updated_at = models.DateTimeField(blank=True, null=True)
 
     objects = EntryManager()
-    # hidden = HiddenManager()
 
     class Meta:
         verbose_name_plural = 'entries'

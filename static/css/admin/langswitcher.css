@@ -29,7 +29,7 @@
 
 #doc-languages li a {
   display: inline-block;
-  background: #f9b74d;
+  background: #79aec8;
   color: #2d2d2d;
   text-decoration: none;
   font-weight: 700;
@@ -38,18 +38,18 @@
   height: 33px;
   text-align: center;
   line-height: 35px;
-  border: solid 1px #f7a31c;
+  border: solid 1px #79aec8;
 }
 
 #doc-languages li a:hover {
-  background: #f7a31c;
+  background: #79aec8;
 }
 
 #doc-languages li.current {
   display: inline-block;
-  background: #f9b74d;
+  background: #79aec8;
   padding: 8px 15px;
-  border: 1px solid #f7a31c;
+  border: 1px solid #79aec8;
   border-radius: 4px;
   user-select: none;
   -moz-user-select: none;

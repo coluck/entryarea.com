@@ -22,14 +22,6 @@ class EntryQuerySet(SoftDeletionQuerySet):
 class EntryManager(SoftDeletionManager):
     def get_queryset(self, **kwargs):
         return EntryQuerySet(self.model).filter(deleted_at=None)\
-            .filter(is_published=True).defer("deleted_at", "first_body", "is_published")
-
-    def hidden(self):
-        qs = super().get_queryset()
-        return qs.filter(is_published=False).defer("deleted_at", "first_body")
-
-    def hid_pub(self):
-        return EntryQuerySet(self.model).filter(deleted_at=None)\
             .defer("deleted_at", "first_body")
 
     '''

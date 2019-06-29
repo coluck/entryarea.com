@@ -46,28 +46,18 @@
       <ul>
         <li class="is-active">
           <a>
-            <span>{{ title }}</span>
+            <span>{% trans "entries" %}</span>
           </a>
         </li>
         <li>
-          <a href="{% url "user:favorites" user_profile%}">
+          <a href="{% url "user:favorites" user_profile.username %}">
             <span>{% trans "favorites" %}</span>
           </a>
         </li>
-        {% ifequal user_profile.username request.user.username %}
-          <li>
-            <a href="{#  {% url "user:hidden" user_profile %} #}">
-              <span>{% trans "hidden" %}</span>
-            </a>
-          </li>
-        {% endifequal %}
       </ul>
     </div>
     {% endblock tabs %}
     <div class="level is-mobile">
-      <div class="level-left">
-        <p class="subtitle is-4">{% trans "entries" %}</p>
-      </div>
       <div class="level-right">
         {% include "partial/pagination.html" %}
       </div>
@@ -86,6 +76,8 @@
       {% include "app/entry.html" %}
     </div>
     <br><br>
+  {% empty %}
+    {% trans "no entry available" %}
   {% endfor %}
 {% endblock %}
 

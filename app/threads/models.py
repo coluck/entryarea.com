@@ -77,20 +77,20 @@ class Thread(SoftDeletionModel):
 class Tag(models.Model):
     label = models.CharField(max_length=30)
     slug = models.SlugField(max_length=35, unique=True, blank=True)
-    descr = models.CharField(max_length=100)
+    descr = models.CharField(max_length=100, blank=True)
     lang = models.CharField(choices=settings.LANGUAGES, max_length=2)
 
     def __str__(self):
         return f"{self.label}({self.lang})"
 
     def save(self, *args, **kwargs):
-        # if self.slug:
-        #     self.slug = slugify(self.label)
-        #
-        # tag_with_same_slug = Tag.objects.filter(slug=self.slug)
-        #
-        # if tag_with_same_slug.exists():
-        #     self.slug = slugify(self.label) + "--" + str(self.lang)
+        if self.slug:
+            self.slug = slugify(self.label)
+
+        tag_with_same_slug = Tag.objects.filter(slug=self.slug)
+
+        if tag_with_same_slug.exists():
+            self.slug = slugify(self.label) + "--" + str(self.lang)
         #
         # # Save the tag if slug not exists
         super(Tag, self).save(*args, **kwargs)

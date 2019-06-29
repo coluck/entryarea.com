@@ -92,7 +92,6 @@ def profile(request, username):
 class Profile(generic.ListView):
     model = Entry
     context_object_name = 'entries'
-    title = _("entries")
     template_name = 'auth/profile.html'
     paginate_by = 15
     paginate_orphans = 3
@@ -116,14 +115,12 @@ class Profile(generic.ListView):
         context = super().get_context_data(**kwargs)
 
         context['user_profile'] = self.user
-        context['title'] = self.title
         # context['tags'] = self.user.entries.
         return context
 
 
 class Favorites(Profile):
     template_name = "auth/favorites.html"
-    title = _("favorites")
 
     def get_queryset(self, **kwargs):
         queryset = Entry.objects.get_queryset().with_favs(self.user).\
@@ -132,16 +129,3 @@ class Favorites(Profile):
                       slug=F('thread__slug'),
                       username=F('user__username')).order_by("-created_at")
         return queryset
-
-
-class Hidden(Profile):
-    template_name = "auth/hidden.html"
-
-    def get_queryset(self, **kwargs):
-        if self.user != self.request.user:
-            raise Http404()
-        qs = Entry.objects.hidden().filter(user=self.user). \
-            annotate(title=F('thread__title'),
-                     slug=F('thread__slug'),
-                     username=F('user__username')).order_by("-created_at")
-        return qs

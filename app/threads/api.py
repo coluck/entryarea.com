@@ -30,11 +30,11 @@ def api_tag(slug, *args, **kwargs):
     # print(kwargs)     {}
     tag = get_object_or_404(Tag, slug=slug)
     cnt = Count("entries",
-                filter=Q(entries__deleted_at=None) & Q(entries__is_published=True),
+                filter=Q(entries__deleted_at=None),
                 distinct=True)
     # queries = tag.threads.annotate(cnt=Count('entries')).only("title", "slug") \
     queries = tag.threads.annotate(cnt=cnt).only("title", "slug") \
-        .order_by("last_entry")
+        .order_by("-last_entry")
     return api(queries)
 
 
@@ -42,15 +42,14 @@ def api_thread(request, *args, **kwargs):
     if request.GET.get("week", None):
         cnt = Count("entries",
                     filter=Q(entries__created_at__gt=dt.date.today()-dt.timedelta(days=7))&
-                           Q(entries__deleted_at=None) &
-                           Q(entries__is_published=True)
+                           Q(entries__deleted_at=None)
                     , distinct=True)
         queries = Thread.objects.filter(lang=lang()) \
                       .annotate(cnt=cnt).filter(cnt__gt=0) \
                       .order_by("-last_entry").only('title', 'slug')[:20]
     else:
         cnt = Count("entries",
-                    filter=Q(entries__deleted_at=None) & Q(entries__is_published=True),
+                    filter=Q(entries__deleted_at=None),
                     distinct=True)
         queries = Thread.objects.filter(lang=lang()) \
                       .annotate(cnt=cnt) \

@@ -2,7 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.exceptions import ObjectDoesNotExist
-from django.db.models import Count, F
+from django.db.models import Count, F, Q
 from django.http import Http404
 from django.shortcuts import redirect, get_object_or_404, render
 from django.utils.translation import get_language as lang
@@ -14,7 +14,7 @@ from app.entries.models import Entry
 from app.entries.views import add_entry
 from . import api
 from .forms import ThreadForm
-from .mixins import ThreadMixin
+from .mixins import ThreadMixin, ThreadIndexMixin
 from .models import Thread, Tag, PAGINATE
 
 
@@ -25,16 +25,15 @@ def index(request):
     return render(request, 'threads/idx.html', context={'entries': entries})
 
 
-class ThreadIndex(generic.ListView):
+class ThreadIndex(ThreadIndexMixin, generic.ListView):
     template_name = 'threads/index.html'
     context_object_name = 'threads'
     paginate_by = 10
     model = Thread
 
     def get_queryset(self):
-        # tec = Count('entries', filter=Q(entries__created_at__startswith=datetime.date.today()))
-        return Thread.objects.filter(lang=lang()).annotate(ecnt=Count('entries'))\
-            .order_by("-last_entry")
+        queryset = super().get_queryset().filter(lang=lang())
+        return queryset
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
@@ -123,6 +122,7 @@ class TagRead(generic.ListView):
 
     def get(self, request, *args, **kwargs):
         if request.is_ajax():
+            print("dasd")
             return api.api_tag(self.tag.slug, args, kwargs)
         return super().get(request, **kwargs)
 

@@ -7,6 +7,7 @@ from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail, BadHeaderError
 from django.http import HttpResponse
 from django.shortcuts import redirect, render
+from django.views import generic
 from django.urls import reverse
 from django.utils.translation import ugettext as _
 from django.utils.translation import get_language as lang
@@ -114,3 +115,13 @@ def set_timezone(request):  # May add user specific timezone
     else:
         return render(request, 'auth/set-timezone.html',
                       {'timezones': pytz.common_timezones})
+
+
+class About(generic.TemplateView):
+    template_name = "app/about.html"
+
+
+def random_thread(request):
+    thread = Thread.objects.all().filter(lang=lang()).order_by("?")[:1]
+
+    return redirect(thread.get())
