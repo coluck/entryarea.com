@@ -4,6 +4,7 @@ import json
 from django.db.models import Count, Q
 from django.http import HttpResponse
 from django.shortcuts import get_object_or_404
+from django.utils import timezone
 from django.utils.translation import get_language as lang
 
 from app.threads.models import Tag, Thread
@@ -41,7 +42,7 @@ def api_tag(slug, *args, **kwargs):
 def api_thread(request, *args, **kwargs):
     if request.GET.get("week", None):
         cnt = Count("entries",
-                    filter=Q(entries__created_at__gt=dt.date.today()-dt.timedelta(days=7))&
+                    filter=Q(entries__created_at__gt=timezone.now()-timezone.timedelta(days=30))&
                            Q(entries__deleted_at=None)
                     , distinct=True)
         queries = Thread.objects.filter(lang=lang()) \
