@@ -5,16 +5,31 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <meta name="description" content="entry area - eager society">
   <meta name="theme-color" content="#222222">
-  <link rel="canonical" href="https://en.entryarea.com/"/>
+  <link rel="canonical" href="https://entryarea.com/"/>
 
   <link rel="apple-touch-icon" sizes="180x180" href="{% static "img/favi/apple-touch-icon.png" %}">
   <link rel="icon" type="image/png" sizes="32x32" href="{% static "img/favi/favicon-32x32.png" %}">
   <link rel="icon" type="image/png" sizes="16x16" href="{% static "img/favi/favicon-16x16.png" %}">
   <link rel="manifest" href="{% static "img/favi/site.webmanifest" %}">
 
+  <!-- Global site tag (gtag.js) - Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=UA-143054677-1"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+
+    function gtag() {
+      dataLayer.push(arguments);
+    }
+
+    gtag('js', new Date());
+
+    gtag('config', 'UA-143054677-1');
+  </script>
+
+
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
   <link rel="stylesheet" href="{% static "css/style.min.css" %}">
-{#  <link disabled id="site-light" rel="stylesheet" href="{% static "/css/style-light.css" %}">#}
+  {#  <link disabled id="site-light" rel="stylesheet" href="{% static "/css/style-light.css" %}">#}
   {% block title_wrapper %}<title>{% block title %}{% endblock %}entry area</title>{% endblock %}
 </head>
 <body>
@@ -25,14 +40,14 @@
   {% include "partial/header.html" %}
 </header>
 <div class="main main-content">
-  <section class="columns">
+  <section class="columns" style="margin-left: 0; margin-right: 0">
     <aside id="lefting" class="column is-3 is-narrow-mobile is-hidden-mobile">
       {% include "app/leftpane.html" %}
     </aside>
-    <div class="column is-6 is-12-mobile p-20">
+    <div class="column is-6 is-12-mobile">
       {% block content %}{% endblock %}
     </div>
-    <aside class="column is-3 p-20">
+    <aside class="column is-3">
       {% block rightpane %}{% endblock %}
     </aside>
   </section>

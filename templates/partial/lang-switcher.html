@@ -1,6 +1,5 @@
 <div id="lang-switcher">{% load i18n %}
   <ul id="doc-languages" class="language-switcher">
-{#     TODO: change localhost to domain name #}
     <li class="other">
       <a href="https://en.entryarea.com{{ request.get_full_path }}" title="{% trans " english" %}">en</a>
     </li>
@@ -8,7 +7,7 @@
       <a href="https://tr.entryarea.com{{ request.get_full_path }}" title="{% trans " turkish" %}">tr</a>
     </li>
     <li class="current">
-      <span>
+      <span class="noselect">
         {% get_current_language as LANGUAGE %}
         {% trans "language" %}:
         <strong>{{ LANGUAGE }}</strong>

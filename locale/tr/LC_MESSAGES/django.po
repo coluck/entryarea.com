@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-29 15:33+0000\n"
+"POT-Creation-Date: 2019-06-30 17:20+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,7 +18,7 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: app/core/views.py:105
+#: app/core/views.py:106
 msgid "your message sent successfully"
 msgstr "mesajın başarıyla yollandı"
 
@@ -141,7 +141,11 @@ msgstr ""
 msgid "Home"
 msgstr ""
 
-#: templates/app/base.html:56
+#: templates/app/about.html:3 templates/threads/idx.html:3
+msgid "eager society"
+msgstr "giri havzası"
+
+#: templates/app/base.html:71
 msgid "read more..."
 msgstr "devamını okuyayım..."
 
@@ -225,6 +229,11 @@ msgstr "başlık aç"
 msgid "set timezone"
 msgstr "zaman dilimi"
 
+#: templates/app/footer.html:15
+#| msgid "create thread"
+msgid "random thread"
+msgstr "rastegele başlık"
+
 #: templates/auth/favorites.html:7 templates/auth/profile.html:9
 #: templates/auth/profile.html:49
 msgid "entries"
@@ -262,19 +271,19 @@ msgstr "hesabın yok mu?"
 msgid "register"
 msgstr "kayıt"
 
-#: templates/auth/mail/password_reset_email.html:3
+#: templates/auth/mail/password_reset_email.html:2
 msgid "hi! you requested a password reset for your user account "
 msgstr "merhaba! şifre sıfırlama talebinde bulundunuz"
 
-#: templates/auth/mail/password_reset_email.html:5
+#: templates/auth/mail/password_reset_email.html:4
 msgid "Please go to the following page and choose a new password:"
 msgstr ""
 
-#: templates/auth/mail/password_reset_email.html:9
+#: templates/auth/mail/password_reset_email.html:8
 msgid "Your username, in case you've forgotten:"
 msgstr ""
 
-#: templates/auth/mail/password_reset_email.html:11
+#: templates/auth/mail/password_reset_email.html:10
 msgid "Thanks for using our site!"
 msgstr ""
 
@@ -431,21 +440,17 @@ msgstr "hepsi"
 msgid "tags"
 msgstr "kanallar"
 
-#: templates/partial/lang-switcher.html:5
+#: templates/partial/lang-switcher.html:4
 msgid " english"
 msgstr "ingilizce"
 
-#: templates/partial/lang-switcher.html:8
+#: templates/partial/lang-switcher.html:7
 msgid " turkish"
 msgstr "türkçe"
 
-#: templates/partial/lang-switcher.html:13
+#: templates/partial/lang-switcher.html:12
 msgid "language"
 msgstr "dil"
-
-#: templates/threads/idx.html:3
-msgid "eager society"
-msgstr "giri havzası"
 
 #: templates/threads/index.html:4
 msgid "threads"
@@ -1677,4 +1682,3 @@ msgstr ""
 #: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:408
 msgid "Connect, get help, or contribute"
 msgstr ""
-

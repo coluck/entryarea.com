@@ -5,7 +5,7 @@
     "fields": {
       "label": "news",
       "slug": "news",
-      "descr": "all news all around the world",
+      "descr": "news from all over the world",
       "lang": "en"
     }
   },
@@ -15,7 +15,7 @@
     "fields": {
       "label": "music",
       "slug": "music",
-      "descr": "c\u0131st\u0131k j\u0131stic",
+      "descr": "songs, bands, all kinds of vibrations",
       "lang": "en"
     }
   },
@@ -25,7 +25,7 @@
     "fields": {
       "label": "literature",
       "slug": "literature",
-      "descr": "dostoyevski, kafka, dickens",
+      "descr": "books, authors, articles",
       "lang": "en"
     }
   },
@@ -35,7 +35,7 @@
     "fields": {
       "label": "movie",
       "slug": "movie",
-      "descr": "tarantinos, holywood",
+      "descr": "cinema, directors, sometimes spoilers",
       "lang": "en"
     }
   },
@@ -65,7 +65,7 @@
     "fields": {
       "label": "relationships",
       "slug": "relationships",
-      "descr": "fall in love, women, men, trans",
+      "descr": "fall in love, women, men, lgbtiqa",
       "lang": "en"
     }
   },
@@ -73,9 +73,9 @@
     "model": "threads.tag",
     "pk": 8,
     "fields": {
-      "label": "v.s",
+      "label": "vs",
       "slug": "vs",
-      "descr": "versusrev",
+      "descr": "versusrev, victoria's secret",
       "lang": "en"
     }
   },
@@ -85,7 +85,7 @@
     "fields": {
       "label": "technology",
       "slug": "technology",
-      "descr": "know-how",
+      "descr": "electronic devices, know-how, applications of science",
       "lang": "en"
     }
   },
@@ -95,7 +95,7 @@
     "fields": {
       "label": "science",
       "slug": "science",
-      "descr": "science bitch!",
+      "descr": "theories, laws, hypothesis, observations, etc.",
       "lang": "en"
     }
   },
@@ -105,7 +105,7 @@
     "fields": {
       "label": "art",
       "slug": "art",
-      "descr": "artistic stuf",
+      "descr": "imagination, life is your creation, artists, masterpieces",
       "lang": "en"
     }
   },
@@ -115,7 +115,7 @@
     "fields": {
       "label": "personality",
       "slug": "personality",
-      "descr": "people, persons etc.",
+      "descr": "famous personalities, fictitious persons, etc.",
       "lang": "en"
     }
   },
@@ -125,7 +125,7 @@
     "fields": {
       "label": "economy",
       "slug": "economy",
-      "descr": "money bitch",
+      "descr": "finance, money, interest, currency, analysis, etc.",
       "lang": "en"
     }
   },
@@ -135,7 +135,7 @@
     "fields": {
       "label": "vehicle",
       "slug": "vehicle",
-      "descr": "otomobiles, motors, flys",
+      "descr": "cars, motorcycles, jet, etc.",
       "lang": "en"
     }
   },
@@ -143,7 +143,7 @@
     "model": "threads.tag",
     "pk": 15,
     "fields": {
-      "label": "entry-area",
+      "label": "entry area",
       "slug": "entry-area",
       "descr": "things in entryarea",
       "lang": "en"
@@ -153,9 +153,9 @@
     "model": "threads.tag",
     "pk": 16,
     "fields": {
-      "label": "world",
-      "slug": "world",
-      "descr": "earth",
+      "label": "survey",
+      "slug": "survey",
+      "descr": "subjective answers, [un]biased",
       "lang": "en"
     }
   },
@@ -165,7 +165,7 @@
     "fields": {
       "label": "politics",
       "slug": "politics",
-      "descr": "lie, lies",
+      "descr": "ideologies, lie, lies",
       "lang": "en"
     }
   },
@@ -184,7 +184,7 @@
     "pk": 19,
     "fields": {
       "label": "software",
-      "slug": "software",
+      "slug": "software, developing, ai",
       "descr": "programming",
       "lang": "en"
     }
@@ -193,9 +193,59 @@
     "model": "threads.tag",
     "pk": 20,
     "fields": {
-      "label": "others",
-      "slug": "others",
-      "descr": "no name",
+      "label": "travel",
+      "slug": "travel",
+      "descr": "attractions, places to visit",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 21,
+    "fields": {
+      "label": "game",
+      "slug": "game",
+      "descr": "game consoles, pc, atari games",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 22,
+    "fields": {
+      "label": "history",
+      "slug": "history",
+      "descr": "events from past to present",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 23,
+    "fields": {
+      "label": "food & beverage",
+      "slug": "fb",
+      "descr": "gastronomy, cuisines, tastes",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 24,
+    "fields": {
+      "label": "health",
+      "slug": "health",
+      "descr": "diseases, disorders, medicines, etc.",
+      "lang": "en"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 25,
+    "fields": {
+      "label": "uncategorized",
+      "slug": "uncategorized",
+      "descr": "threads that is hard to find tag",
       "lang": "en"
     }
   }
