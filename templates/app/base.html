@@ -2,7 +2,7 @@
 <html lang="{{ LANGUAGE }}">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="entry area - eager society">
   <meta name="theme-color" content="#222222">
   <link rel="canonical" href="https://entryarea.com/"/>
@@ -40,11 +40,11 @@
   {% include "partial/header.html" %}
 </header>
 <div class="main main-content">
-  <section class="columns" style="margin-left: 0; margin-right: 0">
+  <section class="columns">
     <aside id="lefting" class="column is-3 is-narrow-mobile is-hidden-mobile">
       {% include "app/leftpane.html" %}
     </aside>
-    <div class="column is-6 is-12-mobile">
+    <div class="column is-6 is-12-mobile p-20">
       {% block content %}{% endblock %}
     </div>
     <aside class="column is-3">

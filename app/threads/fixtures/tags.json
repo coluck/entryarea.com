@@ -248,5 +248,255 @@
       "descr": "threads that is hard to find tag",
       "lang": "en"
     }
+  },
+    {
+    "model": "threads.tag",
+    "pk": 26,
+    "fields": {
+      "label": "haberler",
+      "slug": "heberler",
+      "descr": "yurttaki ve cihandaki havadisler",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 27,
+    "fields": {
+      "label": "müzik",
+      "slug": "muzik",
+      "descr": "parçalar, gruplar, titreşen her şey",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 28,
+    "fields": {
+      "label": "edebiyat",
+      "slug": "edebiyar",
+      "descr": "kitaplar, yazarlar ve dostoyevski",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 29,
+    "fields": {
+      "label": "sinema",
+      "slug": "sinema",
+      "descr": "yönetmen, oyuncu biraz da spoiler",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 30,
+    "fields": {
+      "label": "tv",
+      "slug": "tv--tr",
+      "descr": "yabancı diziler, televizyon programları ve müge anlı",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 31,
+    "fields": {
+      "label": "eğitim",
+      "slug": "egitim",
+      "descr": "türk eğitim sistemi sorunu, üniversiteler vs.",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 32,
+    "fields": {
+      "label": "ilişkiler",
+      "slug": "iliskiler",
+      "descr": "aşık olmak, arabesk sevgili, lgbtiqa",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 33,
+    "fields": {
+      "label": "vs",
+      "slug": "vs--tr",
+      "descr": "kim kimi yer, o mu bu mu?",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 34,
+    "fields": {
+      "label": "teknoloji",
+      "slug": "teknoloji",
+      "descr": "elektronik cihazlar, know-how, mühendislik",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 35,
+    "fields": {
+      "label": "bilim",
+      "slug": "bilim",
+      "descr": "hipotez, doğa, matematik, uzay kısaca her şey hakkında her şey",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 36,
+    "fields": {
+      "label": "sanat",
+      "slug": "sanat",
+      "descr": "tahayyül, estetik, şaheserler hakkında her türlüsü",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 37,
+    "fields": {
+      "label": "şahsiyet",
+      "slug": "sahsiyet",
+      "descr": "tanınmış kişiler, hayali karakterler, magazin insanları",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 38,
+    "fields": {
+      "label": "ekonomi",
+      "slug": "ekonomi",
+      "descr": "yapısal reformlar, çokomelli, faiz, repo, bono, dolar,",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 39,
+    "fields": {
+      "label": "araç",
+      "slug": "arac",
+      "descr": "araba, motor, uçak, metrobüs",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 40,
+    "fields": {
+      "label": "entry area",
+      "slug": "entry-area--tr",
+      "descr": "entry area ile ilgili her şey",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 41,
+    "fields": {
+      "label": "anket",
+      "slug": "anket",
+      "descr": "anketör, tarafgirler vs.",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 43,
+    "fields": {
+      "label": "politika",
+      "slug": "politika",
+      "descr": "palavra, ideoloji, siyaset, yalan",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 44,
+    "fields": {
+      "label": "fikir",
+      "slug": "fikir",
+      "descr": "bilgi olursa olabilen nöral elektrik akımı",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 45,
+    "fields": {
+      "label": "yazılım",
+      "slug": "yazilim",
+      "descr": "yazılım geliştirme, programlar, yapay zeka",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 46,
+    "fields": {
+      "label": "seyahat",
+      "slug": "seyehat",
+      "descr": "gezilmeye değer mekanlar rehberi",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 47,
+    "fields": {
+      "label": "oyun",
+      "slug": "oyun",
+      "descr": "gamer, konsol, pc, turnuvalar",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 48,
+    "fields": {
+      "label": "tarih",
+      "slug": "tarih",
+      "descr": "olmuş ve bitmişler",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 49,
+    "fields": {
+      "label": "yeme&içme",
+      "slug": "yeme-içme",
+      "descr": "gastronomi, dünya mutfakları, rafine lezzetler",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 24,
+    "fields": {
+      "label": "sağlık",
+      "slug": "saglik",
+      "descr": "hastalıklar, tıp gelısmeleri, ilaçlar",
+      "lang": "tr"
+    }
+  },
+  {
+    "model": "threads.tag",
+    "pk": 25,
+    "fields": {
+      "label": "başı-boşlar",
+      "slug": "basi-boslar",
+      "descr": "kanallandırılamayan başlıklar",
+      "lang": "tr"
+    }
   }
 ]

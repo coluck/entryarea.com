@@ -6,14 +6,14 @@
           {{ LANGUAGE }}
         </a>
       </div>
-      <div class="column is-narrow-mobile is-hidden-tablet" style="width: 82px;padding-right: 0">
+      <div class="column is-narrow-mobile is-hidden-tablet" style="width: 90px;padding-right: 0">
         <a href="/" id="min-logo">
           {{ LANGUAGE }}
         </a>
       </div>
       <div class="column is-6-tablet" style="padding-left: 0">
         <div class="search-container">
-          <div style="width: 95%">
+          <div style="width: 100%">
             <form action="/s" method="GET" role="search">
               <input id="q" type="text" placeholder="{% trans "thread, #entry or @user" %}"
                      class="search-bar" name="q" spellcheck="false" autocomplete="off"
@@ -76,7 +76,7 @@
   <div id="subbar-mobile">
     <div class="is-hidden-tablet level is-mobile">
       <div class="level-item">
-        <a href="">{% trans "week" %}</a>
+        <a href="{% url 'thread:index' %}?week=1">{% trans "week" %}</a>
       </div>
       <div class="level-item">
         <a href="{% url 'thread:index' %}">{% trans "all" %}</a>
