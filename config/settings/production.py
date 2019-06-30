@@ -5,7 +5,7 @@ from decouple import config
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['entryarea.com']
+ALLOWED_HOSTS = ['.entryarea.com']
 
 SESSION_COOKIE_DOMAIN = '.entryarea.com'
 

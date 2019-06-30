@@ -93,7 +93,7 @@ DATABASES = {
         'USER': config('DB_USER'),
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST'),
-        'PORT': config('DB_PORT', default=''),
+        'PORT': config('DB_PORT', default='5432'),
     }
 }
 
@@ -133,6 +133,8 @@ LOCALE_PATHS = [
 ]
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
+
+STATIC_ROOT = '../staticfiles/'
 
 STATIC_URL = '/static/'
 

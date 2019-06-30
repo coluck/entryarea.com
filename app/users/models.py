@@ -43,8 +43,8 @@ class User(AbstractUser):
             'unique': _("this nick was taken."),
         },
     )
-    pinned_entry = models.OneToOneField(Entry, on_delete=models.CASCADE,
-                        related_name="pinned_entry", null=True, blank=True)
+    # pinned_entry = models.OneToOneField(Entry, on_delete=models.CASCADE,
+    #                     related_name="pinned_entry", null=True, blank=True)
     # This is just an example to append a new field
     # age = models.SmallIntegerField(null=True)
 
