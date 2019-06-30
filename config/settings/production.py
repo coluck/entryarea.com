@@ -10,6 +10,8 @@ ALLOWED_HOSTS = ['.entryarea.com']
 SESSION_COOKIE_DOMAIN = '.entryarea.com'
 
 
+
+
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 EMAIL_USE_TLS = config('EMAIL_USE_TLS')
