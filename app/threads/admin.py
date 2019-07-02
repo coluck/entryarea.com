@@ -39,7 +39,7 @@ class EntryInline(admin.StackedInline):
         ("Options", {'fields': ['body', ('lang', 'user')],
                      'classes': ['collapse']})
     ]
-    readonly_fields = ('created_at', 'id')
+    readonly_fields = ('id', )
     has_registered_model = True
 
     def get_fieldsets(self, request, obj=None):
@@ -47,7 +47,7 @@ class EntryInline(admin.StackedInline):
         if request.user.is_superuser:
             fieldsets = [
                 (None, {'fields': [('id',)]}),
-                ("Options", {'fields': ['body', ('lang', 'user', 'deleted_at')],
+                ("Options", {'fields': ['body', ('lang', 'user', 'created_at', 'deleted_at')],
                              'classes': ['collapse']})
             ]
         return fieldsets
@@ -115,7 +115,10 @@ class ThreadAdmin(admin.ModelAdmin):
     def formfield_for_manytomany(self, db_field, request, **kwargs):
         item = request.path.split("/")[-3]
         thread = self.get_object(request, item)
-        kwargs["queryset"] = Tag.objects.filter(lang=thread.lang)
+        if thread:
+            kwargs["queryset"] = Tag.objects.filter(lang=thread.lang)
+        else:
+            kwargs["queryset"] = Tag.objects.filter(lang=lang())
         return super().formfield_for_manytomany(db_field, request, **kwargs)
 
     def get_list_display(self, request):
@@ -221,9 +224,10 @@ class ThreadAdmin(admin.ModelAdmin):
         else:
             queryset = Thread.objects
         queryset = queryset.annotate(
-            _entry_count=Count("entries", distinct=True),
+            _entry_count=Count("entries", filter=Q(entries__deleted_at=None), distinct=True),
             _today_entry_count=Count("entries",
-                filter=Q(created_at__startswith=datetime.date.today()),
+                filter=Q(created_at__startswith=datetime.date.today()) &
+                       Q(entries__deleted_at=None),
                 distinct=True),
             _tag_count=Count("tags", distinct=True)
         )
@@ -259,7 +263,7 @@ class ThreadAdmin(admin.ModelAdmin):
 
 
 class TagAdmin(admin.ModelAdmin):
-    list_display = ('id', 'label', 'lang', 'thread_count')
+    list_display = ('id', 'label', 'slug', 'lang', 'thread_count')
     list_filter = ('lang',)
     fields = (('label', 'slug', 'lang',), ('descr',))
 

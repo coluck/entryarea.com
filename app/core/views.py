@@ -5,7 +5,7 @@ import pytz
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.core.mail import send_mail, BadHeaderError
-from django.http import HttpResponse
+from django.http import HttpResponse, QueryDict
 from django.shortcuts import redirect, render
 from django.views import generic
 from django.urls import reverse
@@ -125,3 +125,8 @@ def random_thread(request):
     thread = Thread.objects.all().filter(lang=lang()).order_by("?")[:1]
 
     return redirect(thread.get())
+
+
+def redirect_search(request, string):
+    ret = "/s?q=" + string
+    return redirect(ret)

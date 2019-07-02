@@ -46,7 +46,7 @@ class Entry(SoftDeletionModel):
         return reverse('entry:read', args=[self.id])
 
     def get_body(self):
-        p = re.compile(r"\(((?:see:|bkz:|aka:)) ([\w \W]{0,50})\)")
+        p = re.compile(r"\(((?:see:|bkz:|aka:)) ([\w \W]{0,64}?)\)")
         entry = re.sub(p, r"(\1 <a href='/s?q=\2'>\2</a>)", self.body)
         # \((bkz:|see:|aka:) (\w[\w ]{0,50})\) ->p
         # ($1 <a href="/s?q=$2>$2</a>") -> entry

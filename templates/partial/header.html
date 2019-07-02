@@ -17,7 +17,7 @@
             <form action="/s" method="GET" role="search">
               <input id="q" type="text" placeholder="{% trans "thread, #entry or @user" %}"
                      class="search-bar" name="q" spellcheck="false" autocomplete="off"
-                     maxlength="50">
+                     maxlength="64">
               <button type="submit" class="search-btn">
                 <svg class="search-icon">
                   <use xlink:href="#search-icon"></use>
@@ -36,14 +36,14 @@
               </svg>
               {% trans "me" %}
             </a>
-            <a href="{% url 'user:logout' %}?next={{ request.path }}" style="margin: 0 20px">
+            <a href="{% url 'user:logout' %}?next={{ request.get_full_path }}" style="margin: 0 20px">
               <svg class="logout-icon">
                 <use xlink:href="#logout-icon"></use>
               </svg>
               {% trans "logout" %}
             </a>
           {% else %}
-            <a href="{% url 'user:login' %}?next={{ request.path }}"
+            <a href="{% url 'user:login' %}?next={{ request.get_full_path }}"
                class="button is-primary is-outlined is-rounded is-small">
               {% trans "enter" %}
             </a>
@@ -95,7 +95,7 @@
           </a>
         </div>
         <div class="level-item">
-          <a href="{% url 'user:logout' %}?next={{ request.path }}" class="is-primary">
+          <a href="{% url 'user:logout' %}?next={{ request.get_full_path }}" class="is-primary">
 {#            {% trans "logout" %}#}
             <svg class="logout-icon" style="width: 18px;
 						    height: 18px;">
@@ -105,7 +105,7 @@
         </div>
       {% else %}
         <div class="level-item">
-          <a href="{% url 'user:login' %}?next={{ request.path }}">{% trans "enter" %}</a>
+          <a href="{% url 'user:login' %}?next={{ request.get_full_path }}">{% trans "enter" %}</a>
         </div>
         <div class="level-item">
           <a href="{% url 'user:register' %}" class="is-primary">{% trans "register" %}</a>

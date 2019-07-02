@@ -27,7 +27,7 @@
   {% endif %}
 {% else %}
   <p class="entry">{% trans "please" %}
-    <a href="{% url 'user:login' %}?next={{ request.path }}" class="primary">{% trans "enter" %}</a>
+    <a href="{% url 'user:login' %}?next={{ request.get_full_path }}" class="primary">{% trans "enter" %}</a>
     {% trans "to write" %}
   </p>
 {% endif %}

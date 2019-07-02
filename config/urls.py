@@ -17,6 +17,7 @@ from django.conf import settings
 from django.contrib import admin
 from django.urls import path, include
 
+# from app.core.views import redirect_search
 
 urlpatterns = [
     # path('admin/', admin.site.urls),
@@ -25,6 +26,7 @@ urlpatterns = [
     path('', include('app.threads.urls')),
     path('', include('app.users.urls')),
     path('', include('app.core.urls')),
+    # path('<str:string>', redirect_search),
     # path('', include('django.contrib.auth.urls')),
 ]
 

@@ -2,7 +2,7 @@
   <div id="{{ entry.id }}" class="pointer"></div>
   <div class="entry-content">
     {% autoescape off %}
-      {{ entry.get_body | linebreaks | lower }}
+      {{ entry.get_body | linebreaksbr | lower }}
     {% endautoescape %}
   </div>
   <div class="level is-mobile">

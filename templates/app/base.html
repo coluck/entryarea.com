@@ -5,7 +5,16 @@
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1.0, user-scalable=no">
   <meta name="description" content="entry area - eager society">
   <meta name="theme-color" content="#222222">
+
+  <meta property="og:title" content="entry area">
+  <meta property="og:site_name" content="entryarea">
+  <meta property="og:url" content="https://entryarea.com/">
+  <meta property="og:description" content="">
+  <meta property="og:type" content="article">
+  <meta property="og:image" content="https://entryarea.com/static/img/min.svg">
+
   <link rel="canonical" href="https://entryarea.com/"/>
+
 
   <link rel="apple-touch-icon" sizes="180x180" href="{% static "img/favi/apple-touch-icon.png" %}">
   <link rel="icon" type="image/png" sizes="32x32" href="{% static "img/favi/favicon-32x32.png" %}">
@@ -29,7 +38,7 @@
 
   <link href="https://fonts.googleapis.com/css?family=Source+Sans+Pro" rel="stylesheet">
   <link rel="stylesheet" href="{% static "css/style.min.css" %}">
-  {#  <link disabled id="site-light" rel="stylesheet" href="{% static "/css/style-light.css" %}">#}
+  <link disabled id="site-light" rel="stylesheet" href="{% static "css/style-light.min.css" %}">
   {% block title_wrapper %}<title>{% block title %}{% endblock %}entry area</title>{% endblock %}
 </head>
 <body>
@@ -59,6 +68,24 @@
   {% include "partial/lang-switcher.html" %}
   {% include "partial/message.html" %}
 </div>
+<script>
+  function theme_toggle() {
+    var el1 = document.getElementById("site-light");
+    if (el1.disabled) {
+      el1.disabled = false;
+      localStorage.setItem("theme", "light");
+    } else {
+      el1.disabled = true;
+      localStorage.setItem("theme", "dark");
+    }
+  }
+
+  if (localStorage.getItem("theme") === "light") {
+    document.getElementById("site-light").disabled = false;
+  } else {
+    document.getElementById("site-light").disabled = true;
+  }
+</script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.4.1/jquery.min.js"
         integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo=" crossorigin="anonymous"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jqueryui/1.12.1/jquery-ui.js"

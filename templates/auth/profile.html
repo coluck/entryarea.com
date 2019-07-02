@@ -1,12 +1,12 @@
 {% extends 'app/base.html' %}{% load i18n %}
-{% block title %}@ {{ user_profile.username }} - {% endblock %}
+{% block title %}@{{ user_profile.username }} - {% endblock %}
 
 {% block content %}
   <div name="thread" class="panel">
-    <p class="title is-2">
+    <p class="title is-3">
       <a href="#">@ {{ user_profile.username }}</a>
       <span class="is-size-6 is-pulled-right">
-        {{ user_profile.entries.count }} {% trans "entries" %}
+        {{ user_profile.entries.count }} {% trans "entry" %}
       </span>
     </p>
     <div class="level is-mobile">

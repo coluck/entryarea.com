@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2019-06-30 17:20+0000\n"
+"POT-Creation-Date: 2019-07-02 17:30+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -46,7 +46,7 @@ msgstr "bu başlık kapanmış, aklından geçeni deneme bile"
 msgid "your entry was published"
 msgstr "entry'in başarıyla yollandı"
 
-#: app/threads/admin.py:165
+#: app/threads/admin.py:168
 msgid "see"
 msgstr "bkz"
 
@@ -59,16 +59,12 @@ msgid "thread can not start with @"
 msgstr "baslik '@' sembolü ile baslayamaz"
 
 #: app/threads/mixins.py:81
-#, fuzzy
-#| msgid "entries"
 msgid "all entries"
-msgstr "entry'ler"
+msgstr "tüm entry'ler"
 
 #: app/threads/mixins.py:83
-#, fuzzy
-#| msgid "entries"
 msgid "weekly entries"
-msgstr "entry'ler"
+msgstr "haftalık entry'ler"
 
 #: app/threads/views.py:64
 msgid "and the thread was created"
@@ -145,7 +141,7 @@ msgstr ""
 msgid "eager society"
 msgstr "giri havzası"
 
-#: templates/app/base.html:71
+#: templates/app/base.html:101
 msgid "read more..."
 msgstr "devamını okuyayım..."
 
@@ -221,8 +217,8 @@ msgid "about"
 msgstr "hakkımızda"
 
 #: templates/app/footer.html:9
-msgid "create thread"
-msgstr "başlık aç"
+msgid "dark/light"
+msgstr "açık/koyu"
 
 #: templates/app/footer.html:12 templates/auth/profile.html:34
 #: templates/auth/set-timezone.html:4 templates/auth/set-timezone.html:8
@@ -230,12 +226,10 @@ msgid "set timezone"
 msgstr "zaman dilimi"
 
 #: templates/app/footer.html:15
-#| msgid "create thread"
 msgid "random thread"
 msgstr "rastegele başlık"
 
-#: templates/auth/favorites.html:7 templates/auth/profile.html:9
-#: templates/auth/profile.html:49
+#: templates/auth/favorites.html:7 templates/auth/profile.html:49
 msgid "entries"
 msgstr "entry'ler"
 
@@ -348,6 +342,12 @@ msgstr ""
 #| msgid "forget password?"
 msgid "Reset my password"
 msgstr "şifreni unuttun mu?"
+
+#: templates/auth/profile.html:9
+#, fuzzy
+#| msgid "entries"
+msgid "entry"
+msgstr "entry'ler"
 
 #: templates/auth/profile.html:15
 msgid "joined"
@@ -1682,3 +1682,6 @@ msgstr ""
 #: venv/lib/python3.6/site-packages/django/views/templates/default_urlconf.html:408
 msgid "Connect, get help, or contribute"
 msgstr ""
+
+#~ msgid "create thread"
+#~ msgstr "başlık aç"
