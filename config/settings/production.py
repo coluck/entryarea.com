@@ -5,11 +5,19 @@ from decouple import config
 
 DEBUG = False
 
-ALLOWED_HOSTS = ['.entryarea.com']
+
+# ALLOWED_HOSTS = ['.entryarea.com']
+
+ALLOWED_HOSTS = ['entryarea.com', 'en.entryarea.com', 'tr.entryarea.com']
 
 SESSION_COOKIE_DOMAIN = '.entryarea.com'
 
+ADMINS = [('oguz', 'goeswog@gmail.com')]
 
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SECURE_SSL_REDIRECT = True
+SESSION_COOKIE_SECURE = True
+CSRF_COOKIE_SECURE = True
 
 
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
