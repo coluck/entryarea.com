@@ -45,7 +45,7 @@ class Thread(SoftDeletionModel):
         # Save the thread in order to get the id to append in the slug
         super(Thread, self).save(*args, **kwargs)
         if not self.slug:
-            self.slug = slugify(self.title, allow_unicode=True) + "--" + str(self.id)
+            self.slug = slugify(self.title, allow_unicode=False) + "--" + str(self.id)
             self.save()
 
     def get_absolute_url(self):

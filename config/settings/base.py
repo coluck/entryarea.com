@@ -32,12 +32,15 @@ LOGIN_REDIRECT_URL = "/"
 # SESSION_COOKIE_DOMAIN = ['.localhost.com', 'localhost:8000']  # Don't Work. Find solution.
 # SESSION_COOKIE_DOMAIN = None  # Worked Like Test It
 # Application definition
+SITE_ID = 1
 
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
+    'django.contrib.sitemaps',
+    'django.contrib.sites',
     'django.contrib.messages',
     'django.contrib.staticfiles',
 
