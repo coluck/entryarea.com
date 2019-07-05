@@ -53,7 +53,7 @@ def api_thread(request, *args, **kwargs):
                     filter=Q(entries__deleted_at=None),
                     distinct=True)
         queries = Thread.objects.filter(lang=lang()) \
-                      .annotate(cnt=cnt) \
+                      .annotate(cnt=cnt).filter(cnt__gt=0)  \
                       .order_by("-cnt").only('title', 'slug')[:20]
     return api(queries)
 
