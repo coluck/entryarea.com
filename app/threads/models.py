@@ -40,7 +40,7 @@ class Thread(SoftDeletionModel):
     def save(self, *args, **kwargs):
         # If model is updating on admin, there should be modification in slug
         if self.slug:
-            self.slug = slugify(self.title, allow_unicode=True) + "--" + str(self.id)
+            self.slug = slugify(self.title, allow_unicode=False) + "--" + str(self.id)
 
         # Save the thread in order to get the id to append in the slug
         super(Thread, self).save(*args, **kwargs)
