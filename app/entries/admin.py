@@ -48,7 +48,7 @@ class EntryAdmin(admin.ModelAdmin):
     def get_list_filter(self, request):
         list_filter = super().get_list_filter(request)
         if request.user.is_superuser:
-            list_filter = ['lang']
+            list_filter = ['lang', 'deleted_at']
         return list_filter
 
     def get_queryset(self, request):
