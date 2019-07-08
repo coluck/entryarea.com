@@ -193,6 +193,12 @@ class ThreadAdmin(admin.ModelAdmin):
 
     undo_delete.short_description = "Undo delete selected threads"
 
+    def get_readonly_fields(self, request, obj=None):
+        rf = super().get_readonly_fields(request, obj)
+        if request.user.is_superuser:
+            rf = ['slug', 'id']
+        return rf
+
     def get_actions(self, request):
         actions = super().get_actions(request)
         if not request.user.is_superuser:

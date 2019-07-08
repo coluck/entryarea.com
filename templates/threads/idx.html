@@ -5,11 +5,11 @@
 {% block content %}
   {% for entry in entries %}
     <div name="thread" class="panel">
-      <p class="title is-4">
+      <h4 class="title is-4">
         <a href="{% url "thread:read" entry.slug %}">
           {{ entry.title }}
         </a>
-      </p>
+      </h4>
     </div>
     <div name="body">
       {% include "app/entry.html" %}
