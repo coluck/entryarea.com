@@ -196,7 +196,7 @@ class ThreadAdmin(admin.ModelAdmin):
     def get_readonly_fields(self, request, obj=None):
         rf = super().get_readonly_fields(request, obj)
         if request.user.is_superuser:
-            rf = ['slug', 'id', 'created_at']
+            rf = ['slug', 'id', 'created_at', 'updated_at']
         return rf
 
     def get_actions(self, request):
