@@ -1,4 +1,4 @@
-# entryarea.com
+# entry area
 -------------
 Source code of entryarea.com
 
